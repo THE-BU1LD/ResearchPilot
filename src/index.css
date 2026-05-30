@@ -1,0 +1,777 @@
+/* ======================================================
+   FONT IMPORTS (MUST COME FIRST — VITE REQUIREMENT)
+   ====================================================== */
+
+@import '@fontsource/outfit/400.css';
+@import '@fontsource/outfit/500.css';
+@import '@fontsource/outfit/600.css';
+@import '@fontsource/outfit/700.css';
+@import '@fontsource/outfit/800.css';
+@import '@fontsource/outfit/900.css';
+@import '@fontsource/bangers/400.css';
+
+/* ======================================================
+   TAILWIND DIRECTIVES
+   ====================================================== */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ======================================================
+   DESIGN TOKENS / THEME VARIABLES
+   ====================================================== */
+
+@layer base {
+  :root, .theme-red {
+    /* Comic/Brutalist - RED DOMINANT palette (default) */
+    --background: 0 0% 98%;
+    --foreground: 0 0% 5%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 5%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 5%;
+
+    /* Primary - Bold Red */
+    --primary: 0 85% 55%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 0 85% 92%;
+    --primary-glow: 0 90% 65%;
+
+    /* Secondary */
+    --secondary: 0 30% 95%;
+    --secondary-foreground: 0 0% 10%;
+
+    --muted: 0 10% 90%;
+    --muted-foreground: 0 0% 35%;
+
+    --accent: 350 80% 45%;
+    --accent-foreground: 0 0% 100%;
+
+    --comic-blue: 210 100% 55%;
+    --comic-blue-foreground: 0 0% 100%;
+
+    --comic-green: 145 70% 45%;
+    --comic-green-foreground: 0 0% 100%;
+
+    --destructive: 0 80% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 5%;
+    --input: 0 0% 5%;
+    --ring: 0 85% 55%;
+
+    --radius: 0px;
+
+    /* Brutal tokens */
+    --brutal-border: 3px;
+    --brutal-offset: 6px;
+
+    /* Shadows */
+    --shadow-brutal: 6px 6px 0px hsl(0 0% 5%);
+    --shadow-brutal-sm: 4px 4px 0px hsl(0 0% 5%);
+    --shadow-brutal-lg: 8px 8px 0px hsl(0 0% 5%);
+    --shadow-brutal-accent: 6px 6px 0px hsl(var(--accent));
+    --shadow-brutal-primary: 6px 6px 0px hsl(var(--primary));
+
+    /* Sidebar */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 0 0% 10%;
+    --sidebar-primary: 0 85% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 30% 95%;
+    --sidebar-accent-foreground: 0 0% 10%;
+    --sidebar-border: 0 0% 5%;
+    --sidebar-ring: 0 85% 55%;
+  }
+
+  /* Blue Theme */
+  .theme-blue {
+    --primary: 210 100% 55%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 210 100% 92%;
+    --primary-glow: 210 100% 65%;
+    --accent: 200 80% 45%;
+    --accent-foreground: 0 0% 100%;
+    --ring: 210 100% 55%;
+    --secondary: 210 30% 95%;
+    --shadow-brutal-primary: 6px 6px 0px hsl(210 100% 55%);
+    --sidebar-primary: 210 100% 55%;
+    --sidebar-ring: 210 100% 55%;
+  }
+
+  /* Green Theme */
+  .theme-green {
+    --primary: 145 70% 45%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 145 70% 92%;
+    --primary-glow: 145 70% 55%;
+    --accent: 135 60% 40%;
+    --accent-foreground: 0 0% 100%;
+    --ring: 145 70% 45%;
+    --secondary: 145 30% 95%;
+    --shadow-brutal-primary: 6px 6px 0px hsl(145 70% 45%);
+    --sidebar-primary: 145 70% 45%;
+    --sidebar-ring: 145 70% 45%;
+  }
+
+  /* Purple Theme */
+  .theme-purple {
+    --primary: 270 70% 55%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 270 70% 92%;
+    --primary-glow: 270 70% 65%;
+    --accent: 280 60% 50%;
+    --accent-foreground: 0 0% 100%;
+    --ring: 270 70% 55%;
+    --secondary: 270 30% 95%;
+    --shadow-brutal-primary: 6px 6px 0px hsl(270 70% 55%);
+    --sidebar-primary: 270 70% 55%;
+    --sidebar-ring: 270 70% 55%;
+  }
+
+  /* Orange Theme */
+  .theme-orange {
+    --primary: 25 95% 55%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 25 95% 92%;
+    --primary-glow: 25 95% 65%;
+    --accent: 15 85% 50%;
+    --accent-foreground: 0 0% 100%;
+    --ring: 25 95% 55%;
+    --secondary: 25 30% 95%;
+    --shadow-brutal-primary: 6px 6px 0px hsl(25 95% 55%);
+    --sidebar-primary: 25 95% 55%;
+    --sidebar-ring: 25 95% 55%;
+  }
+
+  /* Pink Theme */
+  .theme-pink {
+    --primary: 330 80% 60%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 330 80% 92%;
+    --primary-glow: 330 80% 70%;
+    --accent: 340 70% 55%;
+    --accent-foreground: 0 0% 100%;
+    --ring: 330 80% 60%;
+    --secondary: 330 30% 95%;
+    --shadow-brutal-primary: 6px 6px 0px hsl(330 80% 60%);
+    --sidebar-primary: 330 80% 60%;
+    --sidebar-ring: 330 80% 60%;
+  }
+
+  /* Cyan Theme */
+  .theme-cyan {
+    --primary: 185 80% 45%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 185 80% 92%;
+    --primary-glow: 185 80% 55%;
+    --accent: 175 70% 40%;
+    --accent-foreground: 0 0% 100%;
+    --ring: 185 80% 45%;
+    --secondary: 185 30% 95%;
+    --shadow-brutal-primary: 6px 6px 0px hsl(185 80% 45%);
+    --sidebar-primary: 185 80% 45%;
+    --sidebar-ring: 185 80% 45%;
+  }
+
+  /* Yellow Theme */
+  .theme-yellow {
+    --primary: 45 95% 50%;
+    --primary-foreground: 0 0% 5%;
+    --primary-light: 45 95% 92%;
+    --primary-glow: 45 95% 60%;
+    --accent: 35 85% 45%;
+    --accent-foreground: 0 0% 100%;
+    --ring: 45 95% 50%;
+    --secondary: 45 30% 95%;
+    --shadow-brutal-primary: 6px 6px 0px hsl(45 95% 50%);
+    --sidebar-primary: 45 95% 50%;
+    --sidebar-ring: 45 95% 50%;
+  }
+
+  /* Dark Mode - applies to all themes */
+  .dark {
+    --background: 0 0% 8%;
+    --foreground: 0 0% 96%;
+    --card: 0 0% 12%;
+    --card-foreground: 0 0% 96%;
+    --popover: 0 0% 12%;
+    --popover-foreground: 0 0% 96%;
+    --secondary: 0 0% 16%;
+    --secondary-foreground: 0 0% 96%;
+    --muted: 0 0% 20%;
+    --muted-foreground: 0 0% 60%;
+    --border: 0 0% 80%;
+    --input: 0 0% 80%;
+    --shadow-brutal: 6px 6px 0px hsl(0 0% 80%);
+    --shadow-brutal-sm: 4px 4px 0px hsl(0 0% 80%);
+    --shadow-brutal-lg: 8px 8px 0px hsl(0 0% 80%);
+    --sidebar-background: 0 0% 10%;
+    --sidebar-foreground: 0 0% 96%;
+    --sidebar-accent: 0 0% 16%;
+    --sidebar-accent-foreground: 0 0% 96%;
+    --sidebar-border: 0 0% 80%;
+  }
+}
+
+/* ======================================================
+   BASE ELEMENT STYLES
+   ====================================================== */
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    font-family: 'Outfit', sans-serif;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+
+  .font-comic {
+    font-family: 'Bangers', cursive;
+    letter-spacing: 0.05em;
+  }
+}
+
+/* ======================================================
+   COMPONENT CLASSES
+   ====================================================== */
+
+@layer components {
+  .brutal-card {
+    @apply bg-card border-3 border-foreground;
+    box-shadow: var(--shadow-brutal);
+  }
+
+  .brutal-button {
+    @apply border-3 border-foreground font-bold uppercase tracking-wide;
+    box-shadow: var(--shadow-brutal-sm);
+    transition: all 0.1s ease;
+  }
+
+  .brutal-button:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px hsl(var(--foreground));
+  }
+
+  .brutal-input {
+    @apply w-full px-4 py-3 bg-card border-3 border-foreground font-medium;
+    box-shadow: var(--shadow-brutal-sm);
+  }
+
+  .brutal-header {
+    @apply border-b-3 border-foreground;
+    box-shadow: 0 4px 0 0 hsl(var(--foreground));
+  }
+
+  .speech-bubble {
+    @apply relative bg-card border-3 border-foreground p-6;
+    box-shadow: var(--shadow-brutal);
+  }
+
+  .speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 14px solid transparent;
+    border-right: 14px solid transparent;
+    border-top: 18px solid hsl(var(--foreground));
+  }
+
+  .speech-bubble::before {
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: 16px solid hsl(var(--card));
+    z-index: 1;
+  }
+
+  /* Zigzag border effect */
+  .zigzag-border {
+    background: linear-gradient(135deg, hsl(var(--foreground)) 25%, transparent 25%) -10px 0,
+                linear-gradient(225deg, hsl(var(--foreground)) 25%, transparent 25%) -10px 0,
+                linear-gradient(315deg, hsl(var(--foreground)) 25%, transparent 25%),
+                linear-gradient(45deg, hsl(var(--foreground)) 25%, transparent 25%);
+    background-size: 20px 20px;
+    background-color: hsl(var(--card));
+  }
+}
+
+/* ======================================================
+   UTILITIES
+   ====================================================== */
+
+@layer utilities {
+  .border-3 { border-width: 3px; }
+  .border-r-3 { border-right-width: 3px; }
+  .border-b-3 { border-bottom-width: 3px; }
+  .border-t-3 { border-top-width: 3px; }
+  .border-l-3 { border-left-width: 3px; }
+
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
+  }
+
+  @keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: var(--shadow-brutal), 0 0 0 0 hsl(var(--primary) / 0.4); }
+    50% { box-shadow: var(--shadow-brutal), 0 0 20px 5px hsl(var(--primary) / 0.2); }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.4s ease-out forwards;
+  }
+
+  .animate-wiggle {
+    animation: wiggle 0.3s ease-in-out;
+  }
+
+  .animate-pop {
+    animation: pop 0.3s ease-in-out;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  /* Hover effects */
+  .hover\:animate-wiggle:hover {
+    animation: wiggle 0.3s ease-in-out;
+  }
+
+  .hover\:animate-pop:hover {
+    animation: pop 0.3s ease-in-out;
+  }
+}
+
+/* ======================================================
+   ADD NEW CUSTOM CSS BELOW THIS LINE
+   (SAFE ZONE — WILL NOT BREAK BUILDS)
+   ====================================================== */
+
+/* Comic Halftone Dot Pattern */
+.comic-dots {
+  background-image: radial-gradient(circle, hsl(var(--foreground) / 0.08) 2px, transparent 2px);
+  background-size: 20px 20px;
+}
+
+.comic-dots-lg {
+  background-image: radial-gradient(circle, hsl(var(--foreground) / 0.06) 4px, transparent 4px);
+  background-size: 30px 30px;
+}
+
+.comic-dots-dense {
+  background-image: radial-gradient(circle, hsl(var(--foreground) / 0.1) 2px, transparent 2px);
+  background-size: 12px 12px;
+}
+
+.comic-dots-primary {
+  background-image: radial-gradient(circle, hsl(var(--primary) / 0.15) 3px, transparent 3px);
+  background-size: 24px 24px;
+}
+
+/* Stripes Pattern */
+.stripes-pattern {
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    hsl(var(--foreground) / 0.03) 10px,
+    hsl(var(--foreground) / 0.03) 20px
+  );
+}
+
+/* Comic Grid Pattern */
+.comic-grid {
+  background-image: 
+    linear-gradient(hsl(var(--foreground) / 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(var(--foreground) / 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Combined dot + grid for extra comic effect */
+.comic-paper {
+  background-image: 
+    radial-gradient(circle, hsl(var(--foreground) / 0.06) 1.5px, transparent 1.5px),
+    linear-gradient(hsl(var(--foreground) / 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(var(--foreground) / 0.03) 1px, transparent 1px);
+  background-size: 16px 16px, 48px 48px, 48px 48px;
+}
+
+/* Enhanced Comic Action Effects */
+@keyframes comic-bounce {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-8px) rotate(-2deg); }
+  75% { transform: translateY(-4px) rotate(2deg); }
+}
+
+@keyframes comic-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px) rotate(-1deg); }
+  75% { transform: translateX(4px) rotate(1deg); }
+}
+
+@keyframes comic-pulse-border {
+  0%, 100% { border-color: hsl(var(--foreground)); }
+  50% { border-color: hsl(var(--primary)); }
+}
+
+@keyframes comic-glow {
+  0%, 100% { filter: drop-shadow(0 0 2px hsl(var(--primary) / 0.3)); }
+  50% { filter: drop-shadow(0 0 8px hsl(var(--primary) / 0.6)); }
+}
+
+@keyframes speed-lines {
+  0% { transform: translateX(-100%) scaleX(0); opacity: 0; }
+  50% { transform: translateX(0%) scaleX(1); opacity: 1; }
+  100% { transform: translateX(100%) scaleX(0); opacity: 0; }
+}
+
+.animate-comic-bounce {
+  animation: comic-bounce 0.6s ease-in-out;
+}
+
+.animate-comic-shake {
+  animation: comic-shake 0.4s ease-in-out;
+}
+
+.animate-comic-pulse-border {
+  animation: comic-pulse-border 2s ease-in-out infinite;
+}
+
+.animate-comic-glow {
+  animation: comic-glow 2s ease-in-out infinite;
+}
+
+/* Action burst shape */
+.action-burst {
+  clip-path: polygon(10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%, 0% 50%);
+}
+
+/* Explosion shape for impact */
+.impact-shape {
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+
+/* Jagged edges for cards */
+.jagged-edge {
+  clip-path: polygon(0% 5%, 5% 0%, 10% 5%, 15% 0%, 20% 5%, 25% 0%, 30% 5%, 35% 0%, 40% 5%, 45% 0%, 50% 5%, 55% 0%, 60% 5%, 65% 0%, 70% 5%, 75% 0%, 80% 5%, 85% 0%, 90% 5%, 95% 0%, 100% 5%, 100% 95%, 95% 100%, 90% 95%, 85% 100%, 80% 95%, 75% 100%, 70% 95%, 65% 100%, 60% 95%, 55% 100%, 50% 95%, 45% 100%, 40% 95%, 35% 100%, 30% 95%, 25% 100%, 20% 95%, 15% 100%, 10% 95%, 5% 100%, 0% 95%);
+}
+
+/* Hand-drawn border effect */
+.hand-drawn-border {
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  border: 3px solid hsl(var(--foreground));
+}
+
+/* Comic panel shadow layers */
+.comic-shadow-layers {
+  position: relative;
+}
+
+.comic-shadow-layers::before {
+  content: '';
+  position: absolute;
+  inset: 4px -4px -4px 4px;
+  background: hsl(var(--primary) / 0.3);
+  border: 3px solid hsl(var(--foreground));
+  z-index: -1;
+}
+
+.comic-shadow-layers::after {
+  content: '';
+  position: absolute;
+  inset: 8px -8px -8px 8px;
+  background: hsl(var(--primary) / 0.15);
+  border: 3px solid hsl(var(--foreground) / 0.5);
+  z-index: -2;
+}
+
+/* Ink splatter effect */
+.ink-splatter {
+  background-image: 
+    radial-gradient(ellipse 50px 30px at 20% 30%, hsl(var(--foreground) / 0.05) 0%, transparent 100%),
+    radial-gradient(ellipse 30px 50px at 80% 70%, hsl(var(--foreground) / 0.03) 0%, transparent 100%),
+    radial-gradient(ellipse 40px 40px at 50% 50%, hsl(var(--primary) / 0.02) 0%, transparent 100%);
+}
+
+/* Retro scan lines */
+.scan-lines {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    hsl(var(--foreground) / 0.02) 2px,
+    hsl(var(--foreground) / 0.02) 4px
+  );
+}
+
+/* Performance optimizations */
+.gpu-accelerate {
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.reduce-motion {
+  animation: none !important;
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-comic-bounce,
+  .animate-comic-shake,
+  .animate-comic-pulse-border,
+  .animate-comic-glow,
+  .animate-wiggle,
+  .animate-pop,
+  .animate-float,
+  .animate-pulse-glow {
+    animation: none !important;
+  }
+}
+
+/* Focus states for accessibility */
+.focus-comic:focus-visible {
+  outline: 3px solid hsl(var(--primary));
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .brutal-card,
+  .brutal-button {
+    border-width: 4px;
+  }
+}
+
+/* ======================================================
+   HYPER-INTERACTIVE SKETCHED EFFECTS
+   ====================================================== */
+
+/* Wobbly sketched border animation */
+@keyframes wobble-border {
+  0%, 100% { border-radius: 255px 15px 225px 15px/15px 225px 15px 255px; }
+  25% { border-radius: 15px 255px 15px 225px/225px 15px 255px 15px; }
+  50% { border-radius: 225px 15px 255px 15px/15px 255px 15px 225px; }
+  75% { border-radius: 15px 225px 15px 255px/255px 15px 225px 15px; }
+}
+
+.sketched-border-animated {
+  animation: wobble-border 4s ease-in-out infinite;
+  border: 3px solid hsl(var(--foreground));
+}
+
+/* Sketchy underline effect */
+.sketchy-underline {
+  position: relative;
+}
+
+.sketchy-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 10'%3E%3Cpath d='M0,5 Q25,0 50,5 T100,5' stroke='hsl(0,85%25,55%25)' stroke-width='3' fill='none'/%3E%3C/svg%3E") repeat-x;
+  background-size: 100px 10px;
+}
+
+/* Crosshatch hover effect */
+.crosshatch-hover {
+  position: relative;
+  overflow: hidden;
+}
+
+.crosshatch-hover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 4px,
+    hsl(var(--primary) / 0.1) 4px,
+    hsl(var(--primary) / 0.1) 8px
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.crosshatch-hover:hover::before {
+  opacity: 1;
+}
+
+/* Ink drip effect */
+.ink-drip {
+  position: relative;
+}
+
+.ink-drip::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 20%;
+  width: 60%;
+  height: 12px;
+  background: radial-gradient(ellipse at center, hsl(var(--foreground) / 0.1) 0%, transparent 70%);
+  filter: blur(2px);
+}
+
+/* Interactive glow on hover */
+.interactive-glow {
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.interactive-glow:hover {
+  box-shadow: 
+    var(--shadow-brutal),
+    0 0 20px hsl(var(--primary) / 0.2),
+    inset 0 0 30px hsl(var(--primary) / 0.05);
+}
+
+/* Sketched button with animated border */
+.sketched-button {
+  position: relative;
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  border: none;
+  padding: 12px 24px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.sketched-button::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border: 3px solid hsl(var(--foreground));
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  animation: wobble-border 4s ease-in-out infinite;
+}
+
+.sketched-button:hover {
+  transform: translate(-2px, -2px);
+}
+
+.sketched-button:active {
+  transform: translate(0, 0);
+}
+
+/* Scribble highlight effect */
+@keyframes scribble {
+  0%, 100% { 
+    background-position: 0% 50%;
+  }
+  50% { 
+    background-position: 100% 50%;
+  }
+}
+
+.scribble-highlight {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--primary) / 0.3) 0%,
+    hsl(var(--primary) / 0.1) 25%,
+    hsl(var(--primary) / 0.3) 50%,
+    hsl(var(--primary) / 0.1) 75%,
+    hsl(var(--primary) / 0.3) 100%
+  );
+  background-size: 200% 100%;
+  animation: scribble 3s ease-in-out infinite;
+  padding: 2px 6px;
+  border-radius: 2px;
+}
+
+/* Comic explosion background */
+.comic-explosion-bg {
+  background: 
+    radial-gradient(circle at 30% 20%, hsl(var(--primary) / 0.1) 0%, transparent 30%),
+    radial-gradient(circle at 70% 80%, hsl(var(--accent) / 0.08) 0%, transparent 25%),
+    radial-gradient(circle at 90% 30%, hsl(var(--primary) / 0.05) 0%, transparent 20%);
+}
+
+/* Starburst pattern */
+.starburst-pattern {
+  background: conic-gradient(
+    from 0deg,
+    hsl(var(--primary) / 0.05) 0deg 15deg,
+    transparent 15deg 30deg,
+    hsl(var(--primary) / 0.05) 30deg 45deg,
+    transparent 45deg 60deg,
+    hsl(var(--primary) / 0.05) 60deg 75deg,
+    transparent 75deg 90deg,
+    hsl(var(--primary) / 0.05) 90deg 105deg,
+    transparent 105deg 120deg,
+    hsl(var(--primary) / 0.05) 120deg 135deg,
+    transparent 135deg 150deg,
+    hsl(var(--primary) / 0.05) 150deg 165deg,
+    transparent 165deg 180deg,
+    hsl(var(--primary) / 0.05) 180deg 195deg,
+    transparent 195deg 210deg,
+    hsl(var(--primary) / 0.05) 210deg 225deg,
+    transparent 225deg 240deg,
+    hsl(var(--primary) / 0.05) 240deg 255deg,
+    transparent 255deg 270deg,
+    hsl(var(--primary) / 0.05) 270deg 285deg,
+    transparent 285deg 300deg,
+    hsl(var(--primary) / 0.05) 300deg 315deg,
+    transparent 315deg 330deg,
+    hsl(var(--primary) / 0.05) 330deg 345deg,
+    transparent 345deg 360deg
+  );
+}
+
+/* Tooltip arrow sketched */
+.tooltip-sketched {
+  position: relative;
+}
+
+.tooltip-sketched::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid hsl(var(--foreground));
+}

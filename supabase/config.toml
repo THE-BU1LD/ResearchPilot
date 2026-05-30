@@ -1,0 +1,7 @@
+project_id = "mvwfkzbaamyaziwiezrz"
+
+[functions.generate-ideas]
+verify_jwt = false
+
+[functions.ai-writing-feedback]
+verify_jwt = false
