@@ -1,0 +1,28 @@
+name: Research docs integrity
+
+on:
+  pull_request:
+  push:
+    branches-ignore:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  docs-integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify required research sprint documents
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s docs/ARXIV_ENDORSEMENT_PLAN_2026.md
+          test -s docs/RESEARCH_PORTFOLIO_SPRINT_2026-08-31.md
+          grep -Fq 'negative' docs/RESEARCH_PORTFOLIO_SPRINT_2026-08-31.md
+          grep -Fq 'endorsement' docs/ARXIV_ENDORSEMENT_PLAN_2026.md
+          if grep -Eiq 'guaranteed acceptance|guaranteed endorsement|scientifically validated' docs/ARXIV_ENDORSEMENT_PLAN_2026.md docs/RESEARCH_PORTFOLIO_SPRINT_2026-08-31.md; then
+            echo 'Unsupported certainty claim found in research planning docs.' >&2
+            exit 1
+          fi
