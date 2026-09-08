@@ -21,6 +21,14 @@ export default tseslint.config(
       ...reactHooks.configs.recommended.rules,
       "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
       "@typescript-eslint/no-unused-vars": "off",
+      // This codebase intentionally uses gradual typing (tsconfig has
+      // noImplicitAny/strictNullChecks disabled). Keep lint aligned with that
+      // policy while CI's tsc project build catches actual type errors.
+      "@typescript-eslint/no-explicit-any": "off",
+      // shadcn/Radix wrapper props commonly use empty interface extension and
+      // CommonJS plugin loading. These are style choices, not correctness gates.
+      "@typescript-eslint/no-empty-object-type": "off",
+      "@typescript-eslint/no-require-imports": "off",
     },
   },
 );
