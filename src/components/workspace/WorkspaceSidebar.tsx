@@ -23,7 +23,7 @@ import {
   ChevronUp,
   Sparkles,
   Target,
-  Keyboard, ShieldCheck,
+  Keyboard,
   ShieldCheck,
 } from "lucide-react";
 
