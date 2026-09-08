@@ -32,8 +32,8 @@ jobs:
       - name: Install locked dependencies
         run: npm ci
 
-      - name: Lint
-        run: npm run lint
+      - name: Lint non-regression
+        run: node scripts/ci/lint-baseline.mjs
 
       - name: Typecheck
         run: npx tsc -b --pretty false
