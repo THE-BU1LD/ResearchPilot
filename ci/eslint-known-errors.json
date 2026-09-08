@@ -1,0 +1,44 @@
+[
+  {
+    "file": "src/components/project/SecurePipelineBuilder.tsx",
+    "rule": "no-control-regex",
+    "message": "Unexpected control character(s) in regular expression: \\x00, \\x08, \\x0b, \\x0c, \\x0e, \\x1f",
+    "count": 1
+  },
+  {
+    "file": "src/components/workspace/ResearchMilestones.tsx",
+    "rule": "no-empty",
+    "message": "Empty block statement",
+    "count": 1
+  },
+  {
+    "file": "src/components/workspace/StickyNotes.tsx",
+    "rule": "no-empty",
+    "message": "Empty block statement",
+    "count": 1
+  },
+  {
+    "file": "src/pages/ProjectWorkspace.tsx",
+    "rule": "no-loss-of-precision",
+    "message": "This number literal will lose precision at runtime",
+    "count": 2
+  },
+  {
+    "file": "src/pages/ProjectWorkspace.tsx",
+    "rule": "no-empty",
+    "message": "Empty block statement",
+    "count": 1
+  },
+  {
+    "file": "src/pages/ProjectWorkspace.tsx",
+    "rule": "@typescript-eslint/ban-ts-comment",
+    "message": "Use \"@ts-expect-error\" instead of \"@ts-ignore\", as \"@ts-ignore\" will do nothing if the following line is error-free",
+    "count": 1
+  },
+  {
+    "file": "supabase/functions/ai-writing-feedback/index.ts",
+    "rule": "no-useless-escape",
+    "message": "Unnecessary escape character: \\[",
+    "count": 1
+  }
+]
