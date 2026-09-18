@@ -60,6 +60,9 @@ jobs:
       - name: Require high-severity production audit clean
         run: npm audit --omit=dev --audit-level=high
 
+      - name: Reinstall full repaired dependency graph
+        run: npm ci
+
       - name: Verify repaired application graph
         shell: bash
         run: |
