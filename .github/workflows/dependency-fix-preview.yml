@@ -1,0 +1,80 @@
+name: Dependency fix preview
+
+on:
+  pull_request:
+    paths:
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/dependency-fix-preview.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dependency-fix-preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+env:
+  SOURCE_SHA: ${{ github.event.pull_request.head.sha }}
+
+jobs:
+  preview:
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.head_ref == 'ci/production-dependency-audit-20260918'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ env.SOURCE_SHA }}
+          persist-credentials: false
+
+      - name: Verify exact source
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$SOURCE_SHA"
+          test -z "$(git status --porcelain)"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '22.23.2'
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Apply compatible production advisory fixes
+        run: npm audit fix --omit=dev
+
+      - name: Require high-severity production audit clean
+        run: npm audit --omit=dev --audit-level=high
+
+      - name: Verify repaired application graph
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/ci/lint-baseline.mjs
+          npx tsc -b --pretty false
+          npm run build
+
+      - name: Require a package graph delta
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- package.json package-lock.json; then
+            echo 'npm audit fix produced no package graph change.' >&2
+            exit 1
+          fi
+          git diff --stat -- package.json package-lock.json
+
+      - name: Upload reviewed package graph
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: production-dependency-fix-${{ env.SOURCE_SHA }}
+          path: |
+            package.json
+            package-lock.json
+          if-no-files-found: error
+          retention-days: 7
