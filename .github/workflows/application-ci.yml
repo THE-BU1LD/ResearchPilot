@@ -38,30 +38,10 @@ jobs:
         run: |
           set -euo pipefail
           test -f .env.example
-          if git ls-files --error-unmatch .env >/dev/null 2>&1; then
-            echo '.env must not be committed; keep only .env.example.' >&2
-            exit 1
-          fi
-          if git ls-files -z | tr '\0' '\n' | grep -E '^\.env\.' | grep -v '^\.env\.example
-      - name: Set up Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-        with:
-          node-version: 22
-          cache: npm
-
-      - name: Install locked dependencies
-        run: npm ci
-
-      - name: Lint non-regression
-        run: node scripts/ci/lint-baseline.mjs
-
-      - name: Typecheck
-        run: npx tsc -b --pretty false
-
-      - name: Build
-        run: npm run build
-; then
-            echo 'Unexpected tracked environment file found.' >&2
+          tracked_env="$(git ls-files '.env*' | grep -v '^\.env\.example$' || true)"
+          if [ -n "$tracked_env" ]; then
+            echo 'Unexpected tracked environment file found:' >&2
+            printf '%s\n' "$tracked_env" >&2
             exit 1
           fi
 
