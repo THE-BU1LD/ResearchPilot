@@ -54,6 +54,9 @@ jobs:
       - name: Install locked dependencies
         run: npm ci
 
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
+
       - name: Lint non-regression
         run: node scripts/ci/lint-baseline.mjs
 
