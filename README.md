@@ -1,90 +1,85 @@
 # Research Muse
 
-A student research workspace that supports the full workflow from brainstorming to literature review, methodology planning, data analysis, writing support, plagiarism checks, ethics review, and export.
+Research Muse is a student research workspace for moving from an early question to a documented research project without treating generated text or a polished UI as scientific evidence.
 
-## Project info
+## Current product scope
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+The application currently includes:
 
-## How can I edit this code?
+- guided brainstorming and question refinement;
+- literature-review and source-import flows;
+- methodology and statistics helpers;
+- data-analysis and charting surfaces;
+- writing feedback and revision support;
+- plagiarism/overlap-risk checks;
+- integrity and ethics review prompts;
+- project export;
+- local mock authentication and local project persistence when Supabase is not configured.
 
-There are several ways of editing your application.
+This is a **research-support product**, not a Project 2424 scientific result by itself. Product features, CI, builds, demos, or generated drafts must not be cited as evidence that a research hypothesis is supported.
 
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-
-## What this build includes
-
-- Brainstorming with guided idea generation
-- Literature review and source import flow
-- Methodology and statistics helper tools
-- Data analysis and charting
-- Writing assistance with feedback, not full-paper auto-writing
-- Integrity & ethics review for overlap risk, citations, and sensitive topics
-- Local mock auth and local project persistence when Supabase is not configured
-
-## Beta testing
-
-This repo is set up to run even without backend keys. If Supabase credentials are present, the project will use them; otherwise it falls back to local demo mode.
-
-## What technologies are used for this project?
-
-This project is built with:
+## Stack
 
 - Vite
 - TypeScript
 - React
-- shadcn-ui
+- shadcn/ui
 - Tailwind CSS
+- Supabase when configured, with local demo fallbacks otherwise
 
-## How can I deploy this project?
+## Local development
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+Requirements: Node.js and npm.
 
-## Can I connect a custom domain to my Lovable project?
+```bash
+git clone https://github.com/THE-BU1LD/ResearchPilot.git
+cd ResearchPilot
+npm install
+npm run dev
+```
 
-Yes, you can!
+Useful checks:
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+```bash
+npm run lint
+npm run build
+```
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Preview the production build locally:
+
+```bash
+npm run preview
+```
+
+## Backend behavior
+
+The repository is designed to remain usable without backend credentials.
+
+When valid Supabase configuration is present, the application can use the configured backend. When it is absent, development/demo flows fall back to local behavior rather than pretending that cloud persistence exists.
+
+Do not commit service-role keys, private participant records, credentials, or other access-controlled research data to this repository.
+
+## Deployment
+
+No canonical production URL is asserted by this README.
+
+A deployment should be treated as canonical only after the repository records the intended host/provider, exact source revision, required environment variables, and a verification path. Placeholder hosting/project IDs are deliberately not kept here.
+
+## Research and integrity boundary
+
+Research Muse can assist with planning, organization, source handling, analysis workflows, and writing feedback. It must not silently manufacture:
+
+- experimental results;
+- citations that were not verified;
+- participant or dataset provenance;
+- ethics/approval status;
+- plagiarism-clearance claims;
+- publication or acceptance claims.
+
+Scientific conclusions belong to the relevant research project's retained evidence and protocol, not to this product repository.
+
+## Portfolio routing
+
+Canonical repository: `THE-BU1LD/ResearchPilot`.
+
+Cross-project research status and evidence should remain in the relevant canonical research repository/control ledger rather than being copied into Research Muse as if this product produced the evidence.
