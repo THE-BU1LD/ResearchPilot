@@ -51,6 +51,18 @@ Preview the production build locally:
 npm run preview
 ```
 
+## Environment setup
+
+For local Supabase-backed development:
+
+```bash
+cp .env.example .env
+```
+
+Populate only the browser-safe `VITE_*` client values needed by the app. Do **not** place Supabase service-role keys, database passwords, provider credentials, or other server-side secrets in `.env` values exposed through Vite.
+
+Local `.env` files are intentionally ignored; `.env.example` is the only environment template committed to the repository.
+
 ## Backend behavior
 
 The repository is designed to remain usable without backend credentials.
