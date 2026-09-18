@@ -54,6 +54,7 @@ jobs:
       - name: Install locked dependencies
         run: npm ci
 
+      # High-severity production advisories fail closed; breaking lower-severity upgrades are reviewed separately.
       - name: Audit production dependencies
         run: npm audit --omit=dev --audit-level=high
 
