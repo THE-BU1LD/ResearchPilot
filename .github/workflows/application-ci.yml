@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   verify:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     env:
       SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
@@ -32,6 +32,18 @@ jobs:
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "$SOURCE_SHA"
           test -z "$(git status --porcelain)"
+
+      - name: Reject tracked local environment files
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f .env.example
+          tracked_env="$(git ls-files '.env*' | grep -v '^\.env\.example$' || true)"
+          if [ -n "$tracked_env" ]; then
+            echo 'Unexpected tracked environment file found:' >&2
+            printf '%s\n' "$tracked_env" >&2
+            exit 1
+          fi
 
       - name: Set up Node.js
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
