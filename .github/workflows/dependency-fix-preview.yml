@@ -8,7 +8,7 @@ on:
       - '.github/workflows/dependency-fix-preview.yml'
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: dependency-fix-preview-${{ github.event.pull_request.number }}
@@ -27,7 +27,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ref: ${{ env.SOURCE_SHA }}
-          persist-credentials: false
+          persist-credentials: true
 
       - name: Verify exact source
         shell: bash
@@ -90,3 +90,22 @@ jobs:
             package-lock.json
           if-no-files-found: error
           retention-days: 7
+
+      - name: Commit verified repaired graph and retire helper
+        shell: bash
+        env:
+          EXPECTED_BRANCH: ci/production-dependency-audit-20260918
+        run: |
+          set -euo pipefail
+          test "${GITHUB_HEAD_REF}" = "${EXPECTED_BRANCH}"
+          test "${GITHUB_REPOSITORY}" = "THE-BU1LD/ResearchPilot"
+          if git diff --quiet -- package.json package-lock.json; then
+            echo 'Expected a verified package graph delta before commit.' >&2
+            exit 1
+          fi
+          git rm .github/workflows/dependency-fix-preview.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add package.json package-lock.json
+          git commit -m 'fix(deps): clear high-severity production advisories'
+          git push origin "HEAD:${EXPECTED_BRANCH}"
