@@ -27,7 +27,7 @@ const Footer = () => {
             <span className="font-bold uppercase text-primary-foreground text-sm">Ready to Start?</span>
           </motion.div>
           <h3 className="font-comic text-2xl md:text-3xl text-foreground mb-4">
-            Join thousands of student researchers
+            Build a research process you can inspect
           </h3>
           <Link to="/signup">
             <motion.button
@@ -35,7 +35,7 @@ const Footer = () => {
               whileTap={{ scale: 0.95 }}
               className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-accent-foreground border-3 border-foreground font-bold uppercase shadow-brutal-sm hover:shadow-[2px_2px_0px] transition-all"
             >
-              Get Started Free
+              Start a Project
               <ArrowRight className="w-4 h-4" />
             </motion.button>
           </Link>
@@ -54,7 +54,7 @@ const Footer = () => {
               <span className="text-2xl font-comic text-foreground">ResearchLab</span>
             </Link>
             <p className="text-sm text-muted-foreground font-medium">
-              Making research accessible to students everywhere.
+              A guided workspace for student research, evidence, and handoff.
             </p>
           </div>
 
@@ -137,7 +137,7 @@ const Footer = () => {
         {/* Bottom bar */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 border-t-3 border-foreground/20">
           <p className="text-sm text-muted-foreground flex items-center gap-2 font-medium">
-            © 2024 ResearchLab. Made with 
+            © 2026 Research Muse. Made with 
             <motion.span
               animate={{ scale: [1, 1.2, 1] }}
               transition={{ duration: 1, repeat: Infinity }}
@@ -148,10 +148,10 @@ const Footer = () => {
           </p>
           <div className="flex items-center gap-4">
             <span className="px-3 py-1 bg-muted border-2 border-foreground/30 text-xs font-bold uppercase">
-              50+ Countries
+              Evidence-aware
             </span>
             <span className="px-3 py-1 bg-muted border-2 border-foreground/30 text-xs font-bold uppercase">
-              10K+ Students
+              Student research
             </span>
           </div>
         </div>
