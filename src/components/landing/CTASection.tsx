@@ -12,9 +12,9 @@ import { CornerScribble, HandDrawnUnderline, Doodle } from "@/components/interac
 gsap.registerPlugin(ScrollTrigger);
 
 const benefits = [
-  "100% Free Forever",
-  "No Credit Card Required",
-  "Start in Under 2 Minutes",
+  "Guided research workflow",
+  "Evidence-aware assistance",
+  "Project export and handoff",
 ];
 
 const CTASection = () => {
@@ -130,8 +130,8 @@ const CTASection = () => {
           </h2>
           
           <p className="text-xl text-primary-foreground/90 mb-8 font-medium">
-            Join <span className="font-bold">10,000+ students</span> who are already creating 
-            better research papers with less stress.
+            Build a research workspace that keeps your question, sources, methods, analysis,
+            and writing connected from the first idea to the final handoff.
           </p>
 
           {/* Benefits list */}
@@ -160,7 +160,7 @@ const CTASection = () => {
                   className="bg-card hover:bg-card/90 group animate-pulse-glow"
                 >
                   <Zap className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-                  Start Free Today
+                  Start a Project
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </motion.div>
@@ -187,7 +187,7 @@ const CTASection = () => {
             transition={{ delay: 0.5 }}
             className="mt-8 text-sm text-primary-foreground/70 font-medium flex items-center justify-center gap-2"
           >
-            <Star className="w-4 h-4 fill-current" /> Trusted by students in 50+ countries
+            <Star className="w-4 h-4 fill-current" /> Built around inspectable research work, not vanity metrics
           </motion.p>
         </div>
       </div>
