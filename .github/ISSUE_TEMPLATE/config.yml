@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Bu1LD portfolio routing / repository governance
+    url: https://github.com/THE-BU1LD/org-infra-/issues
+    about: Use the organization control plane for cross-project routing, repository identity/provenance, and portfolio-wide CI/governance work.
