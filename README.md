@@ -90,6 +90,38 @@ Research Muse can assist with planning, organization, source handling, analysis 
 
 Scientific conclusions belong to the relevant research project's retained evidence and protocol, not to this product repository.
 
+### Data Analysis calculations
+
+The Data Analysis panel calculates summaries, ordinary least-squares regression,
+Pearson correlation, target differences and point extrapolations from its current
+rows. Regression and correlation use **row index (1 through n)** as the predictor;
+category labels are not interpreted as dates. Constant values have undefined
+Pearson correlation and R². Extrapolations do not include inferred p-values,
+confidence percentages or prediction intervals. AI commentary remains a separate
+optional interpretation of the computed summary.
+
+CSV imports require `category,value,growth,target` columns. Extra columns are
+retained. Numeric fields accept complete finite decimal/scientific numbers;
+missing values, unit suffixes and nonfinite values are rejected. Quoted commas,
+escaped quotes and quoted newlines are supported. Files are bounded to 1 MiB and
+10,000 rows. Invalid files leave the current dataset and calculated results in
+place; successful imports clear results from the previous dataset. Charts and
+the exported JSON summary use the displayed data. A pie chart requires
+nonnegative values and a positive total.
+
+Numerical and import verification:
+
+```bash
+node --test scripts/ci/data-analysis.test.mjs
+npx tsc -b --pretty false
+node scripts/ci/lint-baseline.mjs
+npm run build
+```
+
+These are product software checks using constructed inputs. They do not execute
+or change any portfolio research study. The separate Advanced Statistics example
+panel is outside this calculation implementation.
+
 ## Portfolio routing
 
 Canonical repository: `THE-BU1LD/ResearchPilot`.

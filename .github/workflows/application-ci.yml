@@ -64,5 +64,8 @@ jobs:
       - name: Typecheck
         run: npx tsc -b --pretty false
 
+      - name: Verify CSV and deterministic analysis
+        run: node --test scripts/ci/data-analysis.test.mjs
+
       - name: Build
         run: npm run build
