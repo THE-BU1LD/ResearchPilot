@@ -1,22 +1,244 @@
+@layer theme, base, components, utilities;
+
+@import 'tailwindcss' source('./');
+
+@plugin 'tailwindcss-animate';
+
+@custom-variant dark (&:is(.dark *));
+
+@utility container {
+  margin-inline: auto;
+  padding-inline: 2rem;
+  @media (width >= --theme(--breakpoint-sm)) {
+    max-width: none;
+  }
+  @media (width >= 1400px) {
+    max-width: 1400px;
+  }
+}
+
+@theme inline {
+  --font-sans: Outfit, system-ui, sans-serif;
+  --font-comic: Bangers, cursive;
+
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-primary-light: hsl(var(--primary-light));
+  --color-primary-glow: hsl(var(--primary-glow));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-sidebar: hsl(var(--sidebar-background));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
+
+  --color-comic-blue: hsl(var(--comic-blue));
+  --color-comic-blue-foreground: hsl(var(--comic-blue-foreground));
+  --color-comic-green: hsl(var(--comic-green));
+  --color-comic-green-foreground: hsl(var(--comic-green-foreground));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-none: 0px;
+
+  --border-width-3: 3px;
+
+  --shadow-brutal: var(--shadow-brutal);
+  --shadow-brutal-sm: var(--shadow-brutal-sm);
+  --shadow-brutal-lg: var(--shadow-brutal-lg);
+  --shadow-brutal-accent: var(--shadow-brutal-accent);
+  --shadow-brutal-primary: var(--shadow-brutal-primary);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+}
+
+@theme {
+  --default-ring-width: 3px;
+  --default-ring-color: rgb(59 130 246 / 0.5);
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-gray-400);
+  }
+
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
 /* ======================================================
-   FONT IMPORTS (MUST COME FIRST — VITE REQUIREMENT)
+   COMPONENT CLASSES
    ====================================================== */
 
-@import '@fontsource/outfit/400.css';
-@import '@fontsource/outfit/500.css';
-@import '@fontsource/outfit/600.css';
-@import '@fontsource/outfit/700.css';
-@import '@fontsource/outfit/800.css';
-@import '@fontsource/outfit/900.css';
-@import '@fontsource/bangers/400.css';
+@utility brutal-card {
+  @apply bg-card border-3 border-foreground;
+  box-shadow: var(--shadow-brutal);
+}
 
-/* ======================================================
-   TAILWIND DIRECTIVES
-   ====================================================== */
+@utility brutal-button {
+  @apply border-3 border-foreground font-bold uppercase tracking-wide;
+  box-shadow: var(--shadow-brutal-sm);
+  transition: all 0.1s ease;
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+  &:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px hsl(var(--foreground));
+  }
+}
+
+@utility brutal-input {
+  @apply w-full px-4 py-3 bg-card border-3 border-foreground font-medium;
+  box-shadow: var(--shadow-brutal-sm);
+}
+
+@utility brutal-header {
+  @apply border-b-3 border-foreground;
+  box-shadow: 0 4px 0 0 hsl(var(--foreground));
+}
+
+@utility speech-bubble {
+  @apply relative bg-card border-3 border-foreground p-6;
+  box-shadow: var(--shadow-brutal);
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 14px solid transparent;
+    border-right: 14px solid transparent;
+    border-top: 18px solid hsl(var(--foreground));
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: 16px solid hsl(var(--card));
+    z-index: 1;
+  }
+}
+
+@utility zigzag-border {
+  /* Zigzag border effect */
+  background:
+    linear-gradient(135deg, hsl(var(--foreground)) 25%, transparent 25%) -10px 0,
+    linear-gradient(225deg, hsl(var(--foreground)) 25%, transparent 25%) -10px 0,
+    linear-gradient(315deg, hsl(var(--foreground)) 25%, transparent 25%),
+    linear-gradient(45deg, hsl(var(--foreground)) 25%, transparent 25%);
+  background-size: 20px 20px;
+  background-color: hsl(var(--card));
+}
+
+@utility border-3 {
+  border-width: 3px;
+}
+
+@utility border-r-3 {
+  border-right-width: 3px;
+}
+
+@utility border-b-3 {
+  border-bottom-width: 3px;
+}
+
+@utility border-t-3 {
+  border-top-width: 3px;
+}
+
+@utility border-l-3 {
+  border-left-width: 3px;
+}
+
+@utility animate-fade-in {
+  animation: fade-in 0.4s ease-out forwards;
+}
+
+@utility animate-wiggle {
+  animation: wiggle 0.3s ease-in-out;
+}
+
+@utility animate-pop {
+  animation: pop 0.3s ease-in-out;
+}
+
+@utility animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@utility animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
 
 /* ======================================================
    DESIGN TOKENS / THEME VARIABLES
@@ -242,86 +464,10 @@
 }
 
 /* ======================================================
-   COMPONENT CLASSES
-   ====================================================== */
-
-@layer components {
-  .brutal-card {
-    @apply bg-card border-3 border-foreground;
-    box-shadow: var(--shadow-brutal);
-  }
-
-  .brutal-button {
-    @apply border-3 border-foreground font-bold uppercase tracking-wide;
-    box-shadow: var(--shadow-brutal-sm);
-    transition: all 0.1s ease;
-  }
-
-  .brutal-button:hover {
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0px hsl(var(--foreground));
-  }
-
-  .brutal-input {
-    @apply w-full px-4 py-3 bg-card border-3 border-foreground font-medium;
-    box-shadow: var(--shadow-brutal-sm);
-  }
-
-  .brutal-header {
-    @apply border-b-3 border-foreground;
-    box-shadow: 0 4px 0 0 hsl(var(--foreground));
-  }
-
-  .speech-bubble {
-    @apply relative bg-card border-3 border-foreground p-6;
-    box-shadow: var(--shadow-brutal);
-  }
-
-  .speech-bubble::after {
-    content: '';
-    position: absolute;
-    bottom: -16px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-left: 14px solid transparent;
-    border-right: 14px solid transparent;
-    border-top: 18px solid hsl(var(--foreground));
-  }
-
-  .speech-bubble::before {
-    content: '';
-    position: absolute;
-    bottom: -12px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-left: 12px solid transparent;
-    border-right: 12px solid transparent;
-    border-top: 16px solid hsl(var(--card));
-    z-index: 1;
-  }
-
-  /* Zigzag border effect */
-  .zigzag-border {
-    background: linear-gradient(135deg, hsl(var(--foreground)) 25%, transparent 25%) -10px 0,
-                linear-gradient(225deg, hsl(var(--foreground)) 25%, transparent 25%) -10px 0,
-                linear-gradient(315deg, hsl(var(--foreground)) 25%, transparent 25%),
-                linear-gradient(45deg, hsl(var(--foreground)) 25%, transparent 25%);
-    background-size: 20px 20px;
-    background-color: hsl(var(--card));
-  }
-}
-
-/* ======================================================
    UTILITIES
    ====================================================== */
 
 @layer utilities {
-  .border-3 { border-width: 3px; }
-  .border-r-3 { border-right-width: 3px; }
-  .border-b-3 { border-bottom-width: 3px; }
-  .border-t-3 { border-top-width: 3px; }
-  .border-l-3 { border-left-width: 3px; }
-
   @keyframes fade-in {
     from { opacity: 0; transform: translateY(16px); }
     to { opacity: 1; transform: translateY(0); }
@@ -346,35 +492,6 @@
   @keyframes pulse-glow {
     0%, 100% { box-shadow: var(--shadow-brutal), 0 0 0 0 hsl(var(--primary) / 0.4); }
     50% { box-shadow: var(--shadow-brutal), 0 0 20px 5px hsl(var(--primary) / 0.2); }
-  }
-
-  .animate-fade-in {
-    animation: fade-in 0.4s ease-out forwards;
-  }
-
-  .animate-wiggle {
-    animation: wiggle 0.3s ease-in-out;
-  }
-
-  .animate-pop {
-    animation: pop 0.3s ease-in-out;
-  }
-
-  .animate-float {
-    animation: float 3s ease-in-out infinite;
-  }
-
-  .animate-pulse-glow {
-    animation: pulse-glow 2s ease-in-out infinite;
-  }
-
-  /* Hover effects */
-  .hover\:animate-wiggle:hover {
-    animation: wiggle 0.3s ease-in-out;
-  }
-
-  .hover\:animate-pop:hover {
-    animation: pop 0.3s ease-in-out;
   }
 }
 

@@ -257,7 +257,7 @@ export default function ProfessorLookup({ onSelectProfessor }: ProfessorLookupPr
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSearch()}
               placeholder="Search by name, research area, or university..."
-              className="w-full h-12 pl-11 pr-4 border-3 border-foreground bg-card font-medium focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full h-12 pl-11 pr-4 border-3 border-foreground bg-card font-medium focus:outline-hidden focus:ring-2 focus:ring-primary"
               style={{ boxShadow: "var(--shadow-brutal-sm)" }}
             />
           </div>
@@ -275,7 +275,7 @@ export default function ProfessorLookup({ onSelectProfessor }: ProfessorLookupPr
           <select
             value={selectedField}
             onChange={(e) => setSelectedField(e.target.value)}
-            className="h-10 px-4 border-2 border-foreground bg-card font-medium focus:outline-none"
+            className="h-10 px-4 border-2 border-foreground bg-card font-medium focus:outline-hidden"
           >
             {researchFields.map((field) => (
               <option key={field} value={field}>

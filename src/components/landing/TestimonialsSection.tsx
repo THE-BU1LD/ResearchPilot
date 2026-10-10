@@ -167,7 +167,7 @@ const TestimonialsSection = () => {
       <div className="container mx-auto px-6 relative z-10">
         {/* Header */}
         <div className="testimonial-header text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary border-3 border-foreground shadow-brutal-sm mb-6 rotate-[-2deg] hover:rotate-0 transition-transform cursor-pointer">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary border-3 border-foreground shadow-brutal-sm mb-6 -rotate-2 hover:rotate-0 transition-transform cursor-pointer">
             <Sparkles className="w-5 h-5 text-primary-foreground" />
             <span className="font-bold uppercase text-primary-foreground text-sm">Success Stories</span>
           </div>

@@ -157,7 +157,7 @@ const PipelineNodeCard = memo(function PipelineNodeCard({
         {/* Top row */}
         <div className="flex items-center gap-2">
           <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center border-2 border-foreground flex-shrink-0"
+            className="w-8 h-8 rounded-lg flex items-center justify-center border-2 border-foreground shrink-0"
             style={{ backgroundColor: config.color }}
           >
             <Icon className="w-4 h-4 text-white" />
@@ -167,9 +167,9 @@ const PipelineNodeCard = memo(function PipelineNodeCard({
             <p className="text-[10px] text-muted-foreground">{config.label}</p>
           </div>
           {/* Status */}
-          {node.status === "success" && <CheckCircle2 className="w-4 h-4 text-comic-green flex-shrink-0" />}
-          {node.status === "error" && <AlertCircle className="w-4 h-4 text-destructive flex-shrink-0" />}
-          {node.status === "running" && <Loader2 className="w-4 h-4 text-primary animate-spin flex-shrink-0" />}
+          {node.status === "success" && <CheckCircle2 className="w-4 h-4 text-comic-green shrink-0" />}
+          {node.status === "error" && <AlertCircle className="w-4 h-4 text-destructive shrink-0" />}
+          {node.status === "running" && <Loader2 className="w-4 h-4 text-primary animate-spin shrink-0" />}
         </div>
 
         {/* Bottom actions */}
@@ -183,10 +183,10 @@ const PipelineNodeCard = memo(function PipelineNodeCard({
             Connect
           </button>
           <div className="flex gap-1">
-            <button onClick={(e) => { e.stopPropagation(); onConfigure(node); }} className="w-6 h-6 rounded flex items-center justify-center hover:bg-secondary">
+            <button onClick={(e) => { e.stopPropagation(); onConfigure(node); }} className="w-6 h-6 rounded-[0.25rem] flex items-center justify-center hover:bg-secondary">
               <Settings className="w-3 h-3 text-muted-foreground" />
             </button>
-            <button onClick={(e) => { e.stopPropagation(); onDelete(node.id); }} className="w-6 h-6 rounded flex items-center justify-center hover:bg-destructive/10">
+            <button onClick={(e) => { e.stopPropagation(); onDelete(node.id); }} className="w-6 h-6 rounded-[0.25rem] flex items-center justify-center hover:bg-destructive/10">
               <Trash2 className="w-3 h-3 text-destructive" />
             </button>
           </div>
@@ -448,7 +448,7 @@ export default function NodeCanvas({ nodes, onNodesChange, onRun, isRunning }: N
           </div>
           
           {/* Minimap */}
-          <div className="w-48 h-28 border-2 border-foreground/30 rounded-lg bg-card/80 relative overflow-hidden flex-shrink-0">
+          <div className="w-48 h-28 border-2 border-foreground/30 rounded-lg bg-card/80 relative overflow-hidden shrink-0">
             <div className="absolute top-1 left-1 text-[8px] font-bold text-muted-foreground flex items-center gap-1">
               <Grid3X3 className="w-2 h-2" />
               MINIMAP

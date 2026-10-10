@@ -190,7 +190,7 @@ const SubjectTools = () => {
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="brutal-card rounded-2xl p-6 bg-gradient-to-br from-primary/10 to-secondary relative overflow-hidden"
+        className="brutal-card rounded-2xl p-6 bg-linear-to-br from-primary/10 to-secondary relative overflow-hidden"
       >
         <InteractiveComicDots 
           dotColor="hsl(var(--foreground) / 0.06)" 
@@ -304,7 +304,7 @@ const SubjectTools = () => {
                         : "bg-card hover:bg-secondary"
                     }`}
                   >
-                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center border-2 flex-shrink-0 ${
+                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center border-2 shrink-0 ${
                       isActive ? "border-primary-foreground/50 bg-primary-foreground/20" : "border-border bg-secondary"
                     }`}>
                       <ToolIcon className={`w-5 h-5 ${isActive ? "text-primary-foreground" : "text-primary"}`} />
@@ -317,7 +317,7 @@ const SubjectTools = () => {
                         {tool.description}
                       </p>
                     </div>
-                    <ChevronRight className={`w-4 h-4 flex-shrink-0 ${isActive ? "text-primary-foreground" : "text-muted-foreground"}`} />
+                    <ChevronRight className={`w-4 h-4 shrink-0 ${isActive ? "text-primary-foreground" : "text-muted-foreground"}`} />
                   </motion.button>
                 );
               })}

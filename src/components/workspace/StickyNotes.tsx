@@ -106,13 +106,13 @@ const StickyNoteCard = memo(function StickyNoteCard({
         <div className="absolute top-1 right-1 flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
           <button
             onClick={() => onUpdate(note.id, { minimized: true })}
-            className="w-5 h-5 rounded flex items-center justify-center hover:bg-foreground/10"
+            className="w-5 h-5 rounded-[0.25rem] flex items-center justify-center hover:bg-foreground/10"
           >
             <Minimize2 className="w-3 h-3 text-foreground/50" />
           </button>
           <button
             onClick={() => onDelete(note.id)}
-            className="w-5 h-5 rounded flex items-center justify-center hover:bg-destructive/20"
+            className="w-5 h-5 rounded-[0.25rem] flex items-center justify-center hover:bg-destructive/20"
           >
             <X className="w-3 h-3 text-foreground/50" />
           </button>
@@ -123,7 +123,7 @@ const StickyNoteCard = memo(function StickyNoteCard({
           value={note.text}
           onChange={e => onUpdate(note.id, { text: e.target.value.slice(0, 500) })}
           placeholder="Quick note..."
-          className="w-full bg-transparent resize-none outline-none text-foreground/80 text-sm font-medium mt-3"
+          className="w-full bg-transparent resize-none outline-hidden text-foreground/80 text-sm font-medium mt-3"
           rows={4}
           style={{ fontFamily: "'Outfit', sans-serif" }}
         />

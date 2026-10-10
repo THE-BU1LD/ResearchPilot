@@ -56,7 +56,7 @@ const WorkspaceHeader = ({ projectName, isNewProject, sidebarOpen, setSidebarOpe
               <Zap className="w-3 h-3 text-primary" />
             </div>
             <h1 className="text-sm font-bold text-foreground truncate max-w-[200px] sm:max-w-none uppercase tracking-wide">
-              {isNewProject ? projectName : "Climate Change Impact Study"}
+              {projectName}
             </h1>
           </div>
         </div>
@@ -143,7 +143,7 @@ const WorkspaceHeader = ({ projectName, isNewProject, sidebarOpen, setSidebarOpe
       </AnimatePresence>
       
       {/* Comic accent bar */}
-      <div className="h-1 bg-gradient-to-r from-primary via-accent to-primary" />
+      <div className="h-1 bg-linear-to-r from-primary via-accent to-primary" />
     </header>
   );
 };

@@ -159,7 +159,7 @@ const Dashboard = () => {
       </div>
 
       {/* HEADER */}
-      <header className="sticky top-0 z-50 bg-background/90 backdrop-blur-sm border-b-3 border-foreground">
+      <header className="sticky top-0 z-50 bg-background/90 backdrop-blur-xs border-b-3 border-foreground">
         <div className="container mx-auto px-6 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 group">
             <div className="w-10 h-10 bg-primary border-2 border-foreground flex items-center justify-center group-hover:rotate-12 transition-transform">
@@ -266,7 +266,7 @@ const Dashboard = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search projects..."
-                className="pl-10 pr-4 h-10 w-48 md:w-64 border-2 border-foreground bg-card text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary"
+                className="pl-10 pr-4 h-10 w-48 md:w-64 border-2 border-foreground bg-card text-sm font-medium focus:outline-hidden focus:ring-2 focus:ring-primary"
               />
             </div>
 

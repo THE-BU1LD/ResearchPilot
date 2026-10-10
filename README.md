@@ -29,20 +29,26 @@ This is a **research-support product**, not a Project 2424 scientific result by 
 
 ## Local development
 
-Requirements: Node.js and npm.
+Requirements: Node.js 22.23.2 (the CI version) and npm. Use `package-lock.json`
+for reproducible installs; npm is the repository's package manager.
 
 ```bash
 git clone https://github.com/THE-BU1LD/ResearchPilot.git
 cd ResearchPilot
-npm install
+npm ci
 npm run dev
 ```
 
 Useful checks:
 
 ```bash
-npm run lint
+npm audit --omit=dev --audit-level=high
+node scripts/ci/lint-baseline.mjs
+npx tsc -b --pretty false
+node --test scripts/ci/data-analysis.test.mjs
 npm run build
+npx playwright install --with-deps chromium
+npm run test:browser
 ```
 
 Preview the production build locally:
@@ -50,6 +56,17 @@ Preview the production build locally:
 ```bash
 npm run preview
 ```
+
+The browser checks start their own preview server on port 4173. They use a build
+without Supabase credentials and exercise routes, CSV imports and exports,
+calculated fallback summaries, bundled fonts, theme tokens and keyboard focus.
+For an existing local Chromium installation, set
+`PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` to its executable path; CI uses the browser
+version pinned by Playwright.
+
+Tailwind CSS 4 requires Safari 16.4+, Chrome 111+ or Firefox 128+.
+See the [dependency migration record](docs/dependency-migration-20261010.md)
+for the compatibility changes and the retained audit gate.
 
 ## Environment setup
 
@@ -68,6 +85,10 @@ Local `.env` files are intentionally ignored; `.env.example` is the only environ
 The repository is designed to remain usable without backend credentials.
 
 When valid Supabase configuration is present, the application can use the configured backend. When it is absent, development/demo flows fall back to local behavior rather than pretending that cloud persistence exists.
+
+Application components import the shared client from `@/lib/supabase` so they
+all use this configuration check. The generated integration client requires
+credentials at module initialization and must not bypass this shared entry point.
 
 Do not commit service-role keys, private participant records, credentials, or other access-controlled research data to this repository.
 
@@ -119,8 +140,10 @@ npm run build
 ```
 
 These are product software checks using constructed inputs. They do not execute
-or change any portfolio research study. The separate Advanced Statistics example
-panel is outside this calculation implementation.
+or change any portfolio research study. Open **Data Analysis** in the workspace
+sidebar to use the calculations. The collapsed **Statistical examples — separate
+sample data** section preserves the existing Advanced Statistics illustration;
+it does not analyze the CSV imported above it.
 
 ## Portfolio routing
 

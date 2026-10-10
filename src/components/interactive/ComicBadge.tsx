@@ -51,7 +51,7 @@ export const ComicBadge = ({
       `}
       style={{ transform: `rotate(${rotate}deg)` }}
     >
-      {icon && <span className="flex-shrink-0">{icon}</span>}
+      {icon && <span className="shrink-0">{icon}</span>}
       <span>{children}</span>
     </motion.div>
   );
@@ -101,9 +101,9 @@ export const SpeechBubble = ({
   className?: string;
 }) => {
   const tailPositions = {
-    bottom: "after:left-1/2 after:-translate-x-1/2 after:-bottom-4 after:border-l-[12px] after:border-r-[12px] after:border-t-[16px] after:border-l-transparent after:border-r-transparent after:border-t-foreground before:left-1/2 before:-translate-x-1/2 before:-bottom-2 before:border-l-[10px] before:border-r-[10px] before:border-t-[14px] before:border-l-transparent before:border-r-transparent before:border-t-card",
-    left: "after:-left-4 after:top-1/2 after:-translate-y-1/2 after:border-t-[12px] after:border-b-[12px] after:border-r-[16px] after:border-t-transparent after:border-b-transparent after:border-r-foreground",
-    right: "after:-right-4 after:top-1/2 after:-translate-y-1/2 after:border-t-[12px] after:border-b-[12px] after:border-l-[16px] after:border-t-transparent after:border-b-transparent after:border-l-foreground",
+    bottom: "after:left-1/2 after:-translate-x-1/2 after:-bottom-4 after:border-l-12 after:border-r-12 after:border-t-16 after:border-l-transparent after:border-r-transparent after:border-t-foreground before:left-1/2 before:-translate-x-1/2 before:-bottom-2 before:border-l-10 before:border-r-10 before:border-t-14 before:border-l-transparent before:border-r-transparent before:border-t-card",
+    left: "after:-left-4 after:top-1/2 after:-translate-y-1/2 after:border-t-12 after:border-b-12 after:border-r-16 after:border-t-transparent after:border-b-transparent after:border-r-foreground",
+    right: "after:-right-4 after:top-1/2 after:-translate-y-1/2 after:border-t-12 after:border-b-12 after:border-l-16 after:border-t-transparent after:border-b-transparent after:border-l-foreground",
   };
 
   const variantStyles = {

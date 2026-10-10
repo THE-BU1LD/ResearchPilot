@@ -187,7 +187,7 @@ const FeaturesSection = () => {
         <div ref={headerRef} className="text-center mb-16">
           <motion.div 
             whileHover={{ scale: 1.05, rotate: 2 }}
-            className="inline-block px-4 py-2 bg-primary border-3 border-foreground shadow-brutal-sm mb-6 cursor-pointer rotate-[-2deg]"
+            className="inline-block px-4 py-2 bg-primary border-3 border-foreground shadow-brutal-sm mb-6 cursor-pointer -rotate-2"
           >
             <span className="font-bold uppercase text-primary-foreground text-sm flex items-center gap-2">
               <Zap className="w-4 h-4 animate-pulse" /> Power Tools
@@ -270,7 +270,7 @@ const FeaturesSection = () => {
                   {feature.benefits.map((benefit) => (
                     <span 
                       key={benefit}
-                      className="px-2 py-1 text-xs bg-background border border-foreground/30 rounded font-medium"
+                      className="px-2 py-1 text-xs bg-background border border-foreground/30 rounded-[0.25rem] font-medium"
                     >
                       {benefit}
                     </span>

@@ -218,7 +218,7 @@ const WhyUsSection = () => {
       <div className="container mx-auto px-6 relative z-10">
         {/* Header */}
         <div ref={headerRef} className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-destructive border-3 border-foreground shadow-brutal-sm mb-6 rotate-[-1deg] hover:rotate-0 transition-transform cursor-pointer">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-destructive border-3 border-foreground shadow-brutal-sm mb-6 -rotate-1 hover:rotate-0 transition-transform cursor-pointer">
             <AlertTriangle className="w-4 h-4 text-destructive-foreground" />
             <span className="font-bold uppercase text-destructive-foreground text-sm">
               The Problem We're Solving
@@ -288,7 +288,7 @@ const WhyUsSection = () => {
 
         {/* Our Solution */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-comic-green border-3 border-foreground shadow-brutal-sm mb-4 rotate-[1deg] hover:rotate-0 transition-transform cursor-pointer">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-comic-green border-3 border-foreground shadow-brutal-sm mb-4 rotate-1 hover:rotate-0 transition-transform cursor-pointer">
             <Sparkles className="w-4 h-4 text-comic-green-foreground" />
             <span className="font-bold uppercase text-comic-green-foreground text-sm">
               Our Solution

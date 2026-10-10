@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ComicSkeleton } from "@/components/ui/comic-skeleton";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabase";
 import { SmartPrompt, AIAssistantBubble, ContextualHelp } from "@/components/ui/smart-prompt";
 import { EmptyState } from "@/components/ui/empty-state";
 import {
