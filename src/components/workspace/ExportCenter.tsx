@@ -311,7 +311,7 @@ const ExportCenter = memo(function ExportCenter() {
                 }`}
               >
                 <div
-                  className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
+                  className={`w-5 h-5 rounded-[0.25rem] border-2 flex items-center justify-center ${
                     isChecked ? "bg-comic-green border-comic-green" : "border-foreground"
                   }`}
                 >

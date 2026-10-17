@@ -68,7 +68,7 @@ export function FeatureTooltip({
                 {onDismiss && (
                   <button
                     onClick={onDismiss}
-                    className="p-1 hover:bg-background/20 rounded transition-colors"
+                    className="p-1 hover:bg-background/20 rounded-[0.25rem] transition-colors"
                   >
                     <X className="w-3 h-3" />
                   </button>
@@ -80,8 +80,8 @@ export function FeatureTooltip({
 
               {/* Tip */}
               {tip && (
-                <div className="flex items-start gap-2 p-2 bg-background/10 rounded mb-3">
-                  <Lightbulb className="w-3 h-3 text-primary mt-0.5 flex-shrink-0" />
+                <div className="flex items-start gap-2 p-2 bg-background/10 rounded-[0.25rem] mb-3">
+                  <Lightbulb className="w-3 h-3 text-primary mt-0.5 shrink-0" />
                   <p className="text-xs">{tip}</p>
                 </div>
               )}
@@ -127,7 +127,7 @@ export function QuickTip({ tip, className = "" }: QuickTipProps) {
     <motion.div
       initial={{ opacity: 0, y: 5 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`inline-flex items-center gap-2 px-3 py-1.5 bg-primary/10 border border-primary/30 text-xs font-medium text-primary rounded ${className}`}
+      className={`inline-flex items-center gap-2 px-3 py-1.5 bg-primary/10 border border-primary/30 text-xs font-medium text-primary rounded-[0.25rem] ${className}`}
     >
       <Lightbulb className="w-3 h-3" />
       {tip}

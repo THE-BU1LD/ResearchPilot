@@ -302,7 +302,7 @@ const CollaborationHub = () => {
                   </div>
                   <button
                     onClick={() => toggleResolve(comment.id)}
-                    className={`p-1 rounded ${comment.resolved ? "text-comic-green" : "text-muted-foreground hover:text-foreground"}`}
+                    className={`p-1 rounded-[0.25rem] ${comment.resolved ? "text-comic-green" : "text-muted-foreground hover:text-foreground"}`}
                   >
                     <Check className="w-4 h-4" />
                   </button>

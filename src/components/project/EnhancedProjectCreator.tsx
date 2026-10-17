@@ -252,7 +252,7 @@ const EnhancedProjectCreator = ({
                 value={projectName}
                 onChange={(e) => setProjectName(e.target.value)}
                 placeholder="e.g., Impact of Social Media on Teen Sleep"
-                className="w-full h-14 px-5 text-lg border-3 border-foreground bg-card font-medium focus:outline-none focus:ring-2 focus:ring-primary"
+                className="w-full h-14 px-5 text-lg border-3 border-foreground bg-card font-medium focus:outline-hidden focus:ring-2 focus:ring-primary"
                 style={{ boxShadow: "var(--shadow-brutal-sm)" }}
               />
               <Sparkles className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />

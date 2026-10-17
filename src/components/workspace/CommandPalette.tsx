@@ -99,10 +99,10 @@ const CommandPalette = memo(function CommandPalette({ onNavigateTool, onToggleTh
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] flex items-start justify-center pt-[15vh]"
+          className="fixed inset-0 z-100 flex items-start justify-center pt-[15vh]"
         >
           {/* Backdrop */}
-          <div className="absolute inset-0 bg-foreground/30 backdrop-blur-sm" onClick={() => setOpen(false)} />
+          <div className="absolute inset-0 bg-foreground/30 backdrop-blur-xs" onClick={() => setOpen(false)} />
 
           {/* Palette */}
           <motion.div
@@ -115,14 +115,14 @@ const CommandPalette = memo(function CommandPalette({ onNavigateTool, onToggleTh
           >
             {/* Search input */}
             <div className="flex items-center gap-3 px-4 py-3 border-b-3 border-foreground">
-              <Command className="w-5 h-5 text-primary flex-shrink-0" />
+              <Command className="w-5 h-5 text-primary shrink-0" />
               <input
                 ref={inputRef}
                 value={query}
                 onChange={e => setQuery(e.target.value)}
                 onKeyDown={handleInputKeyDown}
                 placeholder="Search tools, actions..."
-                className="flex-1 bg-transparent outline-none text-foreground font-medium placeholder:text-muted-foreground"
+                className="flex-1 bg-transparent outline-hidden text-foreground font-medium placeholder:text-muted-foreground"
               />
               <kbd className="hidden sm:inline-flex px-2 py-0.5 text-[10px] font-mono font-bold bg-muted border-2 border-foreground/20 text-muted-foreground">
                 ESC
@@ -165,7 +165,7 @@ const CommandPalette = memo(function CommandPalette({ onNavigateTool, onToggleTh
                             {action.description}
                           </p>
                         </div>
-                        <ArrowRight className={`w-4 h-4 flex-shrink-0 ${isSelected ? "opacity-100" : "opacity-0"}`} />
+                        <ArrowRight className={`w-4 h-4 shrink-0 ${isSelected ? "opacity-100" : "opacity-0"}`} />
                       </motion.button>
                     );
                   })}
@@ -176,13 +176,13 @@ const CommandPalette = memo(function CommandPalette({ onNavigateTool, onToggleTh
             {/* Footer */}
             <div className="px-4 py-2 border-t-3 border-foreground/20 flex items-center gap-4 text-[10px] text-muted-foreground font-bold uppercase">
               <span className="flex items-center gap-1">
-                <kbd className="px-1 py-0.5 bg-muted border rounded font-mono">↑↓</kbd> Navigate
+                <kbd className="px-1 py-0.5 bg-muted border rounded-[0.25rem] font-mono">↑↓</kbd> Navigate
               </span>
               <span className="flex items-center gap-1">
-                <kbd className="px-1 py-0.5 bg-muted border rounded font-mono">↵</kbd> Select
+                <kbd className="px-1 py-0.5 bg-muted border rounded-[0.25rem] font-mono">↵</kbd> Select
               </span>
               <span className="flex items-center gap-1 ml-auto">
-                <kbd className="px-1 py-0.5 bg-muted border rounded font-mono">⌘K</kbd> Toggle
+                <kbd className="px-1 py-0.5 bg-muted border rounded-[0.25rem] font-mono">⌘K</kbd> Toggle
               </span>
             </div>
           </motion.div>

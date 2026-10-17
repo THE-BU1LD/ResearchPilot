@@ -190,7 +190,7 @@ const HeroSection = () => {
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
                 transition={{ delay: 0.5, duration: 0.4 }}
-                className="absolute inset-0 bg-primary border-3 border-foreground -z-0 -rotate-1 origin-left transition-all duration-200 group-hover:rotate-2 group-hover:scale-105" 
+                className="absolute inset-0 bg-primary border-3 border-foreground z-0 -rotate-1 origin-left transition-all duration-200 group-hover:rotate-2 group-hover:scale-105"
               />
               <HandDrawnUnderline width={160} className="-bottom-3 left-1/2 -translate-x-1/2 z-20" color="hsl(var(--accent))" />
             </span>

@@ -113,7 +113,7 @@ const PomodoroTimer = memo(function PomodoroTimer() {
                 <span className="font-comic text-sm tracking-wide">FOCUS TIMER</span>
               </div>
               <div className="flex gap-1">
-                <button onClick={() => setCollapsed(true)} className="p-1 hover:bg-secondary rounded">
+                <button onClick={() => setCollapsed(true)} className="p-1 hover:bg-secondary rounded-[0.25rem]">
                   <ChevronDown className="w-4 h-4" />
                 </button>
               </div>

@@ -1,6 +1,6 @@
 import { useState, useMemo, memo, useCallback, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
 import {
   BarChart3, PieChart, TrendingUp, Calculator, Sparkles, Upload,
@@ -176,12 +176,12 @@ const DataAnalysis = () => {
   ] as const;
 
   const getInsightIcon = (text: string) => {
-    if (text.includes("[TREND]")) return <TrendingUp className="w-4 h-4 text-comic-green flex-shrink-0" />;
-    if (text.includes("[ANOMALY]")) return <Zap className="w-4 h-4 text-accent flex-shrink-0" />;
-    if (text.includes("[RECOMMENDATION]")) return <Target className="w-4 h-4 text-primary flex-shrink-0" />;
-    if (text.includes("[COMPARISON]")) return <ArrowUpDown className="w-4 h-4 text-comic-blue flex-shrink-0" />;
-    if (text.includes("[PREDICTION]")) return <Brain className="w-4 h-4 text-purple-500 flex-shrink-0" />;
-    return <Sparkles className="w-4 h-4 text-primary flex-shrink-0" />;
+    if (text.includes("[TREND]")) return <TrendingUp className="w-4 h-4 text-comic-green shrink-0" />;
+    if (text.includes("[ANOMALY]")) return <Zap className="w-4 h-4 text-accent shrink-0" />;
+    if (text.includes("[RECOMMENDATION]")) return <Target className="w-4 h-4 text-primary shrink-0" />;
+    if (text.includes("[COMPARISON]")) return <ArrowUpDown className="w-4 h-4 text-comic-blue shrink-0" />;
+    if (text.includes("[PREDICTION]")) return <Brain className="w-4 h-4 text-purple-500 shrink-0" />;
+    return <Sparkles className="w-4 h-4 text-primary shrink-0" />;
   };
 
   const cleanInsightText = (text: string) => text.replace(/\[(TREND|ANOMALY|RECOMMENDATION|COMPARISON|PREDICTION|INSIGHT)\]\s*/g, "");
@@ -439,7 +439,7 @@ const DataAnalysis = () => {
                   <div className="space-y-1">
                     {subFeatureResult.caveats.map((c: string, i: number) => (
                       <p key={i} className="text-xs text-muted-foreground flex items-center gap-2">
-                        <Info className="w-3 h-3 flex-shrink-0" />{c}
+                        <Info className="w-3 h-3 shrink-0" />{c}
                       </p>
                     ))}
                   </div>

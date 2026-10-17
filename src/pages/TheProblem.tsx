@@ -329,7 +329,7 @@ const TheProblem = () => {
                     className="barrier-card flex gap-5 p-6 border-3 border-foreground bg-card"
                     style={{ boxShadow: "var(--shadow-brutal)" }}
                   >
-                    <div className="flex-shrink-0">
+                    <div className="shrink-0">
                       <div className="w-14 h-14 bg-destructive/10 border-2 border-destructive rounded-xl flex items-center justify-center">
                         <Icon className="w-7 h-7 text-destructive" />
                       </div>

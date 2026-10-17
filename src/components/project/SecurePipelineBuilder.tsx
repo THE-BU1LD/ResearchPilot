@@ -306,7 +306,7 @@ const StepCard = memo(function StepCard({
                     const sanitized = sanitizeInput(e.target.value);
                     onUpdate(step.id, { name: sanitized });
                   }}
-                  className="font-bold text-foreground bg-transparent border-none outline-none focus:ring-2 focus:ring-primary rounded px-1"
+                  className="font-bold text-foreground bg-transparent border-none outline-hidden focus:ring-2 focus:ring-primary rounded-[0.25rem] px-1"
                   maxLength={100}
                   aria-label="Step name"
                 />
@@ -379,7 +379,7 @@ const StepCard = memo(function StepCard({
                     });
                   }}
                   placeholder="https://api.example.com/v1/process"
-                  className="w-full mt-2 px-3 py-2 text-xs bg-background border-2 border-foreground/20 rounded-lg focus:border-primary outline-none"
+                  className="w-full mt-2 px-3 py-2 text-xs bg-background border-2 border-foreground/20 rounded-lg focus:border-primary outline-hidden"
                   aria-label="API endpoint URL"
                 />
                 {step.validationErrors && step.validationErrors.length > 0 && (
@@ -569,7 +569,7 @@ export const SecurePipelineBuilder = memo(function SecurePipelineBuilder({
       ) : (
         <div className="relative">
           {/* Connection line */}
-          <div className="absolute left-[30px] top-0 bottom-0 w-1 bg-gradient-to-b from-primary via-primary/50 to-transparent rounded-full" />
+          <div className="absolute left-[30px] top-0 bottom-0 w-1 bg-linear-to-b from-primary via-primary/50 to-transparent rounded-full" />
 
           <Reorder.Group axis="y" values={steps} onReorder={onStepsChange} className="space-y-4">
             {steps.map((step, index) => (
@@ -611,7 +611,7 @@ export const SecurePipelineBuilder = memo(function SecurePipelineBuilder({
                     updateStep(selectedStep.id, { name: sanitized });
                     setSelectedStep({ ...selectedStep, name: sanitized });
                   }}
-                  className="w-full mt-1 px-3 py-2 rounded-lg border-3 border-foreground bg-card focus:ring-2 focus:ring-primary outline-none"
+                  className="w-full mt-1 px-3 py-2 rounded-lg border-3 border-foreground bg-card focus:ring-2 focus:ring-primary outline-hidden"
                   maxLength={100}
                 />
               </div>
@@ -636,7 +636,7 @@ export const SecurePipelineBuilder = memo(function SecurePipelineBuilder({
                     });
                   }}
                   placeholder="https://api.example.com/v1/process"
-                  className="w-full mt-1 px-3 py-2 rounded-lg border-3 border-foreground bg-card focus:ring-2 focus:ring-primary outline-none"
+                  className="w-full mt-1 px-3 py-2 rounded-lg border-3 border-foreground bg-card focus:ring-2 focus:ring-primary outline-hidden"
                 />
                 {selectedStep.validationErrors && selectedStep.validationErrors.length > 0 && (
                   <p className="text-xs text-destructive mt-1 flex items-center gap-1">

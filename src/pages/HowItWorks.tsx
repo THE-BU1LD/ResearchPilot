@@ -104,7 +104,7 @@ const HowItWorks = () => {
           <div className="text-center max-w-3xl mx-auto">
             <div className="inline-flex items-center gap-2 px-5 py-2.5 mb-8 
               brutal-card bg-accent text-accent-foreground text-sm font-black uppercase 
-              rotate-[-2deg] hover:rotate-0 transition-transform cursor-default animate-wiggle">
+              -rotate-2 hover:rotate-0 transition-transform cursor-default animate-wiggle">
               <Sparkles className="w-5 h-5 animate-pulse" />
               The Research Journey
               <Zap className="w-5 h-5" />
@@ -112,7 +112,7 @@ const HowItWorks = () => {
 
             <h1 className="font-comic text-5xl md:text-7xl uppercase tracking-tight mb-6 leading-tight">
               Five Steps to
-              <span className="block text-primary rotate-[-1deg] animate-float">
+              <span className="block text-primary -rotate-1 animate-float">
                 Research Excellence!
               </span>
             </h1>
@@ -140,21 +140,21 @@ const HowItWorks = () => {
                 <div className="flex-1 mb-8 md:mb-0">
                   <div
                     className={`brutal-card bg-card p-8 md:p-10 relative 
-                    ${flip ? "rotate-[1deg]" : "rotate-[-1deg]"} 
+                    ${flip ? "rotate-1" : "-rotate-1"}
                     hover:rotate-0 transition-all duration-300 group halftone-overlay`}
                   >
                     {/* Step Badge */}
                     <div className={`absolute -top-6 -left-6 
                       ${step.color} text-white brutal-card px-5 py-3 
-                      text-2xl font-black rotate-[-8deg] group-hover:rotate-[-3deg] 
+                      text-2xl font-black rotate-[-8deg] group-hover:-rotate-3
                       group-hover:scale-110 transition-all duration-300 z-10`}>
                       {step.number}
                     </div>
 
                     {/* Icon */}
                     <div className={`w-20 h-20 ${step.color} brutal-card 
-                      flex items-center justify-center mb-6 rotate-[3deg] 
-                      group-hover:rotate-[-3deg] group-hover:scale-110 transition-all duration-300`}>
+                      flex items-center justify-center mb-6 rotate-3
+                      group-hover:-rotate-3 group-hover:scale-110 transition-all duration-300`}>
                       <Icon className="w-10 h-10 text-white" />
                     </div>
 
@@ -179,7 +179,7 @@ const HowItWorks = () => {
                 {/* Text */}
                 <div className="flex-1">
                   <div className={`brutal-card bg-accent/20 p-8 md:p-10 
-                    ${flip ? "rotate-[-1deg]" : "rotate-[1deg]"} 
+                    ${flip ? "-rotate-1" : "rotate-1"}
                     hover:rotate-0 transition-all duration-300`}>
                     <h2 className="font-comic text-4xl md:text-5xl uppercase mb-3 text-primary">
                       {step.title}
@@ -200,7 +200,7 @@ const HowItWorks = () => {
         {/* CTA */}
         <section className="container mx-auto px-6 mt-32">
           <div className="brutal-card bg-primary text-primary-foreground 
-            p-12 md:p-16 text-center rotate-[-1deg] hover:rotate-0 
+            p-12 md:p-16 text-center -rotate-1 hover:rotate-0
             transition-all duration-300 relative overflow-hidden halftone-overlay">
             
             {/* Decorative elements */}
