@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
 import {
   Beaker,
@@ -219,7 +219,7 @@ const ResearchToolkit = () => {
             className="p-4 bg-primary/5 border-3 border-primary/30 rounded-xl overflow-hidden"
           >
             <div className="flex items-start gap-3">
-              <Sparkles className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+              <Sparkles className="w-5 h-5 text-primary shrink-0 mt-0.5" />
               <div>
                 <h4 className="font-bold text-foreground text-sm mb-1">AI Suggestion</h4>
                 <p className="text-sm text-muted-foreground">{aiAssistResult}</p>

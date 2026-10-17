@@ -243,7 +243,7 @@ export function PipelineBuilder({ steps, onStepsChange, onRun, isRunning }: Pipe
                               type="text"
                               value={step.name}
                               onChange={(e) => updateStep(step.id, { name: e.target.value })}
-                              className="font-bold text-foreground bg-transparent border-none outline-none"
+                              className="font-bold text-foreground bg-transparent border-none outline-hidden"
                             />
                             {/* Status indicator */}
                             {step.status === "success" && <CheckCircle2 className="w-4 h-4 text-comic-green" />}
@@ -297,7 +297,7 @@ export function PipelineBuilder({ steps, onStepsChange, onRun, isRunning }: Pipe
                               value={step.apiEndpoint || ""}
                               onChange={(e) => updateStep(step.id, { apiEndpoint: e.target.value })}
                               placeholder="Enter API endpoint..."
-                              className="flex-1 bg-transparent border-none outline-none text-xs text-muted-foreground"
+                              className="flex-1 bg-transparent border-none outline-hidden text-xs text-muted-foreground"
                             />
                           </div>
                         </motion.div>

@@ -125,7 +125,7 @@ const FounderSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary border-3 border-foreground shadow-brutal-sm mb-6 rotate-[-2deg] hover:rotate-0 transition-transform cursor-pointer">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary border-3 border-foreground shadow-brutal-sm mb-6 -rotate-2 hover:rotate-0 transition-transform cursor-pointer">
             <Rocket className="w-5 h-5 text-primary-foreground" />
             <span className="font-bold uppercase text-primary-foreground text-sm">
               Meet The Visionary
@@ -187,7 +187,7 @@ const FounderSection = () => {
                 className="mt-8 p-4 bg-primary border-3 border-foreground shadow-brutal-sm"
               >
                 <div className="flex items-center gap-3">
-                  <Heart className="w-6 h-6 text-primary-foreground flex-shrink-0" />
+                  <Heart className="w-6 h-6 text-primary-foreground shrink-0" />
                   <p className="text-primary-foreground font-bold">
                     Making research accessible for everyone, everywhere.
                   </p>
@@ -211,7 +211,7 @@ const FounderSection = () => {
                 <div className="relative z-10 text-center">
                   {/* Avatar placeholder with comic style */}
                   <div className="w-40 h-40 mx-auto mb-6 bg-card border-4 border-foreground shadow-brutal-lg rounded-full overflow-hidden relative">
-                    <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-primary/20 to-accent/20">
+                    <div className="absolute inset-0 flex items-center justify-center bg-linear-to-br from-primary/20 to-accent/20">
                       <Code className="w-20 h-20 text-primary" />
                     </div>
                     {/* Comic effect lines */}

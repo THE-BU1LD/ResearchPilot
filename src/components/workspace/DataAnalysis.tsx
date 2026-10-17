@@ -1,6 +1,6 @@
-import { useState, useMemo, memo, useCallback } from "react";
+import { useState, useMemo, memo, useCallback, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
 import {
   BarChart3, PieChart, TrendingUp, Calculator, Sparkles, Upload,
@@ -16,22 +16,18 @@ import {
 import { FeatureExplainer } from "@/components/ui/feature-explainer";
 import { motion, AnimatePresence } from "framer-motion";
 
-interface DataRow {
-  [key: string]: string | number;
-}
+import {
+  analyzeRows, descriptiveInsights, parseAnalysisCSV, summarizeRows, MAX_ANALYSIS_BYTES,
+  type AnalysisFeature, type AnalysisRow,
+} from "@/lib/data-analysis";
+
+type DataRow = AnalysisRow;
 
 const sampleData: DataRow[] = [
   { category: "Q1", value: 4500, growth: 12, target: 4000 },
   { category: "Q2", value: 5200, growth: 15.5, target: 5000 },
   { category: "Q3", value: 4800, growth: -7.7, target: 5500 },
   { category: "Q4", value: 6100, growth: 27, target: 5800 },
-];
-
-const pieData = [
-  { name: "Research", value: 35 },
-  { name: "Analysis", value: 25 },
-  { name: "Writing", value: 20 },
-  { name: "Review", value: 20 },
 ];
 
 const COLORS = ["hsl(var(--primary))", "hsl(350, 80%, 45%)", "hsl(210, 100%, 55%)", "hsl(145, 70%, 45%)"];
@@ -80,35 +76,26 @@ const StatCard = memo(function StatCard({ icon: Icon, label, value, subtext, col
 
 const DataAnalysis = () => {
   const [data, setData] = useState<DataRow[]>(sampleData);
+  const [dataSource, setDataSource] = useState("Example dataset");
+  const [insightSource, setInsightSource] = useState("Calculated summary");
+  const analysisRequest = useRef(0);
+  const importRequest = useRef(0);
+  const pieData = data.map(row => ({ name: row.category, value: row.value }));
+  const supportsPie = data.every(row => row.value >= 0) && data.some(row => row.value > 0);
   const [activeChart, setActiveChart] = useState<"bar" | "line" | "pie" | "scatter">("bar");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [aiInsights, setAiInsights] = useState<string[]>([]);
   const [showTable, setShowTable] = useState(false);
   
   // New: sub-feature states
-  const [activeSubFeature, setActiveSubFeature] = useState<string | null>(null);
-  const [subFeatureResult, setSubFeatureResult] = useState<any>(null);
+  const [activeSubFeature, setActiveSubFeature] = useState<AnalysisFeature | null>(null);
+  const [subFeatureResult, setSubFeatureResult] = useState<ReturnType<typeof analyzeRows> | null>(null);
   const [subFeatureLoading, setSubFeatureLoading] = useState(false);
 
-  const stats = useMemo(() => {
-    const values = data.map((d) => Number(d.value) || 0);
-    const growthValues = data.map((d) => Number(d.growth) || 0);
-    const sum = values.reduce((a, b) => a + b, 0);
-    const mean = sum / values.length;
-    const sortedValues = [...values].sort((a, b) => a - b);
-    const median = sortedValues.length % 2 === 0
-      ? (sortedValues[sortedValues.length / 2 - 1] + sortedValues[sortedValues.length / 2]) / 2
-      : sortedValues[Math.floor(sortedValues.length / 2)];
-    const min = Math.min(...values);
-    const max = Math.max(...values);
-    const range = max - min;
-    const variance = values.reduce((acc, val) => acc + Math.pow(val - mean, 2), 0) / values.length;
-    const stdDev = Math.sqrt(variance);
-    const avgGrowth = growthValues.reduce((a, b) => a + b, 0) / growthValues.length;
-    return { sum, mean, median, min, max, range, stdDev, avgGrowth, count: values.length };
-  }, [data]);
+  const stats = useMemo(() => summarizeRows(data), [data]);
 
   const handleAIAnalysis = async () => {
+    const request = ++analysisRequest.current;
     setIsAnalyzing(true);
     const statsSummary = `Dataset: ${stats.count} observations. Mean=${stats.mean.toFixed(1)}, Median=${stats.median.toFixed(1)}, StdDev=${stats.stdDev.toFixed(1)}, Range=${stats.range}, AvgGrowth=${stats.avgGrowth.toFixed(1)}%. Values: ${data.map(d => `${d.category}: ${d.value} (growth: ${d.growth}%, target: ${d.target})`).join("; ")}`;
 
@@ -116,105 +103,70 @@ const DataAnalysis = () => {
       const { data: aiData, error } = await supabase.functions.invoke("ai-writing-feedback", {
         body: { text: statsSummary, type: "insights" },
       });
+      if (request !== analysisRequest.current) return;
       if (error) throw error;
-      if (aiData?.result && Array.isArray(aiData.result) && aiData.result.length > 0) {
+      if (Array.isArray(aiData?.result) && aiData.result.length > 0 && aiData.result.every((item: unknown) => typeof item === "string")) {
+        setInsightSource("AI-generated commentary — check against calculated summaries");
         setAiInsights(aiData.result);
         toast.success("AI analysis complete!");
       } else {
         throw new Error("Empty response");
       }
     } catch {
-      setAiInsights([
-        "[TREND] Strong upward trend detected in Q4 with 27% growth — highest in the dataset",
-        "[ANOMALY] Q3 shows a notable dip of -7.7% — consider investigating seasonal factors",
-        "[COMPARISON] Overall performance exceeds targets by 8.2% on average",
-        "[RECOMMENDATION] Focus resources on replicating Q4 success factors",
-        "[PREDICTION] Data variance is moderate (σ = " + stats.stdDev.toFixed(0) + ") indicating stable growth patterns",
-      ]);
-      toast.success("Analysis complete (offline mode)");
+      if (request !== analysisRequest.current) return;
+      setInsightSource("Calculated summary");
+      setAiInsights(descriptiveInsights(data));
+      toast.success("Calculated summary ready");
     } finally {
-      setIsAnalyzing(false);
+      if (request === analysisRequest.current) setIsAnalyzing(false);
     }
   };
 
-  const handleSubFeature = useCallback(async (feature: string) => {
+  const handleSubFeature = useCallback((feature: AnalysisFeature) => {
     setActiveSubFeature(feature);
     setSubFeatureLoading(true);
     setSubFeatureResult(null);
-
-    const dataSummary = `Data points: ${data.map(d => `${d.category}: value=${d.value}, growth=${d.growth}%, target=${d.target}`).join("; ")}. Stats: mean=${stats.mean.toFixed(1)}, stdDev=${stats.stdDev.toFixed(1)}, range=${stats.range}.`;
-
     try {
-      const { data: aiData, error } = await supabase.functions.invoke("ai-writing-feedback", {
-        body: { text: dataSummary, type: feature },
-      });
-      if (error) throw error;
-      if (aiData?.result) {
-        setSubFeatureResult(aiData.result);
-        toast.success(`${feature} analysis complete!`);
-      } else {
-        throw new Error("Empty response");
-      }
-    } catch {
-      // Smart fallbacks
-      if (feature === "regression") {
-        setSubFeatureResult({
-          equation: "y = 486.7x + 3813.3",
-          rSquared: 0.72,
-          interpretation: "About 72% of the variation in values can be explained by the time trend. Each quarter, values increase by approximately 487 units.",
-          predictions: [{ x: 5, predictedY: 6247 }, { x: 6, predictedY: 6734 }],
-          recommendation: "The positive trend suggests continued growth. Monitor Q3 dips for seasonal effects.",
-        });
-      } else if (feature === "correlation") {
-        setSubFeatureResult({
-          coefficient: 0.84,
-          strength: "strong positive",
-          pValue: 0.012,
-          interpretation: "There is a strong positive correlation between the period and values, suggesting a clear upward trend over time.",
-          caveats: ["Small sample size (n=4) limits statistical power", "Correlation does not imply causation"],
-        });
-      } else if (feature === "forecast") {
-        setSubFeatureResult({
-          method: "Linear Trend Extrapolation",
-          predictions: [
-            { period: "Q5", value: 6450, lowerBound: 5900, upperBound: 7000 },
-            { period: "Q6", value: 6800, lowerBound: 6100, upperBound: 7500 },
-            { period: "Q7", value: 7150, lowerBound: 6200, upperBound: 8100 },
-          ],
-          trend: "increasing",
-          confidence: 72,
-          explanation: "Based on the existing upward trend, values are projected to continue increasing. However, the Q3 dip introduces uncertainty.",
-        });
-      }
-      toast.success(`${feature} analysis complete (offline)`);
+      setSubFeatureResult(analyzeRows(data, feature));
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Analysis could not be calculated");
     } finally {
       setSubFeatureLoading(false);
     }
-  }, [data, stats]);
+  }, [data]);
 
-  const handleCSVImport = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const handleCSVImport = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.currentTarget.files?.[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      const text = ev.target?.result as string;
-      const lines = text.split(/\r?\n/).filter(Boolean);
-      if (lines.length < 2) return toast.error("CSV needs at least a header and one data row");
-      const headers = lines[0].split(",").map(h => h.trim().replace(/"/g, ""));
-      const rows = lines.slice(1).map(line => {
-        const vals = line.split(",").map(v => v.trim().replace(/"/g, ""));
-        const row: DataRow = {};
-        headers.forEach((h, i) => {
-          const num = parseFloat(vals[i]);
-          row[h] = isNaN(num) ? vals[i] : num;
-        });
-        return row;
-      });
+    e.currentTarget.value = "";
+    const request = ++importRequest.current;
+    try {
+      if (file.size > MAX_ANALYSIS_BYTES) throw new Error("CSV files are limited to 1 MiB");
+      const rows = parseAnalysisCSV(await file.text());
+      if (request !== importRequest.current) return;
+      ++analysisRequest.current;
+      setIsAnalyzing(false);
+      setAiInsights([]);
+      setSubFeatureResult(null);
+      setActiveSubFeature(null);
+      setActiveChart("bar");
       setData(rows);
-      toast.success(`Imported ${rows.length} rows with ${headers.length} columns`);
-    };
-    reader.readAsText(file);
+      setDataSource(file.name);
+      toast.success(`Imported ${rows.length} rows`);
+    } catch (error) {
+      if (request === importRequest.current) toast.error(error instanceof Error ? error.message : "CSV could not be read");
+    }
   }, []);
+
+  const exportSummary = () => {
+    const blob = new Blob([JSON.stringify({ source: dataSource, summary: stats, rows: data }, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "research-muse-data-summary.json";
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(url), 0);
+  };
 
   const chartButtons = [
     { id: "bar", icon: BarChart3, label: "Bar" },
@@ -224,12 +176,12 @@ const DataAnalysis = () => {
   ] as const;
 
   const getInsightIcon = (text: string) => {
-    if (text.includes("[TREND]")) return <TrendingUp className="w-4 h-4 text-comic-green flex-shrink-0" />;
-    if (text.includes("[ANOMALY]")) return <Zap className="w-4 h-4 text-accent flex-shrink-0" />;
-    if (text.includes("[RECOMMENDATION]")) return <Target className="w-4 h-4 text-primary flex-shrink-0" />;
-    if (text.includes("[COMPARISON]")) return <ArrowUpDown className="w-4 h-4 text-comic-blue flex-shrink-0" />;
-    if (text.includes("[PREDICTION]")) return <Brain className="w-4 h-4 text-purple-500 flex-shrink-0" />;
-    return <Sparkles className="w-4 h-4 text-primary flex-shrink-0" />;
+    if (text.includes("[TREND]")) return <TrendingUp className="w-4 h-4 text-comic-green shrink-0" />;
+    if (text.includes("[ANOMALY]")) return <Zap className="w-4 h-4 text-accent shrink-0" />;
+    if (text.includes("[RECOMMENDATION]")) return <Target className="w-4 h-4 text-primary shrink-0" />;
+    if (text.includes("[COMPARISON]")) return <ArrowUpDown className="w-4 h-4 text-comic-blue shrink-0" />;
+    if (text.includes("[PREDICTION]")) return <Brain className="w-4 h-4 text-purple-500 shrink-0" />;
+    return <Sparkles className="w-4 h-4 text-primary shrink-0" />;
   };
 
   const cleanInsightText = (text: string) => text.replace(/\[(TREND|ANOMALY|RECOMMENDATION|COMPARISON|PREDICTION|INSIGHT)\]\s*/g, "");
@@ -254,7 +206,8 @@ const DataAnalysis = () => {
             </div>
             <div>
               <h2 className="text-3xl font-bold text-foreground font-comic tracking-wide">DATA ANALYSIS</h2>
-              <p className="text-sm text-muted-foreground font-medium">Visualize • Calculate • Discover Insights</p>
+              <p className="text-sm text-muted-foreground font-medium">{dataSource} · {stats.count} rows</p>
+              <p className="text-xs text-muted-foreground">CSV columns: category, value, growth, target. Limit: 1 MiB / 10,000 rows.</p>
             </div>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -264,8 +217,8 @@ const DataAnalysis = () => {
                 <span><Upload className="w-4 h-4" />Import CSV</span>
               </Button>
             </label>
-            <Button variant="outline" className="border-2 border-foreground hover:bg-secondary">
-              <Download className="w-4 h-4" />Export
+            <Button variant="outline" className="border-2 border-foreground hover:bg-secondary" onClick={exportSummary}>
+              <Download className="w-4 h-4" />Export summary
             </Button>
             <Button onClick={handleAIAnalysis} disabled={isAnalyzing} className="brutal-button bg-primary text-primary-foreground shadow-brutal-primary">
               {isAnalyzing ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
@@ -277,7 +230,7 @@ const DataAnalysis = () => {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <StatCard icon={Sigma} label="Total Sum" value={stats.sum.toLocaleString()} color="primary" explainer="Sum of all values" trend="up" trendValue="+12%" />
+        <StatCard icon={Sigma} label="Total Sum" value={stats.sum.toLocaleString()} color="primary" explainer="Sum of all values" />
         <StatCard icon={Calculator} label="Mean Avg" value={stats.mean.toFixed(1)} color="primary" explainer="Arithmetic average" />
         <StatCard icon={ArrowUpDown} label="Median" value={stats.median.toFixed(1)} color="primary" explainer="Middle value when sorted" />
         <StatCard icon={Percent} label="Avg Growth" value={`${stats.avgGrowth > 0 ? "+" : ""}${stats.avgGrowth.toFixed(1)}%`} color={stats.avgGrowth >= 0 ? "comic-green" : "destructive"} trend={stats.avgGrowth >= 0 ? "up" : "down"} trendValue={`${Math.abs(stats.avgGrowth).toFixed(1)}%`} explainer="Average percentage change" />
@@ -288,7 +241,7 @@ const DataAnalysis = () => {
         <StatCard icon={Target} label="Min" value={stats.min.toLocaleString()} explainer="Smallest value" />
         <StatCard icon={Target} label="Max" value={stats.max.toLocaleString()} explainer="Largest value" />
         <StatCard icon={Activity} label="Range" value={stats.range.toLocaleString()} explainer="Max minus min" />
-        <StatCard icon={Gauge} label="Std Dev" value={stats.stdDev.toFixed(1)} subtext="σ" explainer="How spread out values are" />
+        <StatCard icon={Gauge} label="Std Dev" value={stats.stdDev.toFixed(1)} subtext="Population σ" explainer="Population standard deviation of the displayed rows" />
       </div>
 
       {/* AI Insights */}
@@ -297,7 +250,7 @@ const DataAnalysis = () => {
           <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="brutal-card rounded-2xl p-5 bg-primary/5 border-primary/30">
             <div className="flex items-center gap-2 mb-4">
               <Sparkles className="w-5 h-5 text-primary" />
-              <h3 className="font-bold text-foreground font-comic">AI INSIGHTS</h3>
+              <h3 className="font-bold text-foreground font-comic">{insightSource}</h3>
             </div>
             <ul className="space-y-3">
               {aiInsights.map((insight, i) => (
@@ -318,7 +271,9 @@ const DataAnalysis = () => {
             {chartButtons.map((btn) => (
               <Button key={btn.id} variant={activeChart === btn.id ? "default" : "outline"}
                 className={`border-2 border-foreground ${activeChart === btn.id ? "bg-primary text-primary-foreground shadow-brutal-sm" : "hover:bg-secondary"}`}
-                onClick={() => setActiveChart(btn.id)}>
+                onClick={() => setActiveChart(btn.id)}
+                disabled={btn.id === "pie" && !supportsPie}
+                title={btn.id === "pie" && !supportsPie ? "Pie charts require nonnegative values and a positive total" : undefined}>
                 <btn.icon className="w-4 h-4" />{btn.label}
               </Button>
             ))}
@@ -405,16 +360,16 @@ const DataAnalysis = () => {
         )}
       </AnimatePresence>
 
-      {/* AI-Powered Quick Actions - NOW FUNCTIONAL */}
+      {/* Calculations use the current dataset directly. */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
           { id: "regression", icon: Calculator, label: "Regression", desc: "Run linear analysis" },
           { id: "correlation", icon: GitBranch, label: "Correlation", desc: "Find patterns" },
-          { id: "forecast", icon: TrendingUp, label: "Forecast", desc: "Predict trends" },
+          { id: "forecast", icon: TrendingUp, label: "Extrapolate", desc: "Extend row-order trend" },
           { id: "compare", icon: Database, label: "Compare", desc: "vs. targets" },
         ].map((action) => (
           <button key={action.id}
-            onClick={() => action.id !== "compare" ? handleSubFeature(action.id) : setActiveSubFeature("compare")}
+            onClick={() => handleSubFeature(action.id as AnalysisFeature)}
             disabled={subFeatureLoading && activeSubFeature === action.id}
             className={`brutal-card rounded-xl p-4 bg-card hover:bg-secondary text-left transition-all hover:translate-x-[-2px] hover:translate-y-[-2px] group ${
               activeSubFeature === action.id ? "ring-2 ring-primary" : ""
@@ -440,20 +395,20 @@ const DataAnalysis = () => {
               <Button variant="ghost" size="sm" onClick={() => { setSubFeatureResult(null); setActiveSubFeature(null); }}>Close</Button>
             </div>
 
-            {activeSubFeature === "regression" && subFeatureResult.equation && (
+            {subFeatureResult.kind === "regression" && (
               <div className="space-y-4">
                 <div className="p-4 bg-card rounded-xl border-2 border-foreground">
                   <p className="font-mono text-lg font-bold text-primary">{subFeatureResult.equation}</p>
-                  <p className="text-sm text-muted-foreground mt-1">R² = {subFeatureResult.rSquared} ({(subFeatureResult.rSquared * 100).toFixed(0)}% variance explained)</p>
+                  <p className="text-sm text-muted-foreground mt-1">{subFeatureResult.rSquared === null ? "R² is undefined for constant observed values" : `R² = ${subFeatureResult.rSquared.toFixed(4)} (${(subFeatureResult.rSquared * 100).toFixed(1)}% variance explained)`}</p>
                 </div>
                 <div className="w-full bg-secondary rounded-full h-3 border-2 border-foreground overflow-hidden">
-                  <motion.div initial={{ width: 0 }} animate={{ width: `${subFeatureResult.rSquared * 100}%` }} transition={{ duration: 1 }}
+                  <motion.div initial={{ width: 0 }} animate={{ width: `${(subFeatureResult.rSquared ?? 0) * 100}%` }} transition={{ duration: 1 }}
                     className="h-full bg-primary rounded-full" />
                 </div>
                 <p className="text-sm text-foreground">{subFeatureResult.interpretation}</p>
                 {subFeatureResult.predictions?.length > 0 && (
                   <div className="grid grid-cols-2 gap-3">
-                    {subFeatureResult.predictions.map((p: any, i: number) => (
+                    {subFeatureResult.predictions.map((p, i: number) => (
                       <div key={i} className="p-3 bg-card rounded-lg border-2 border-border">
                         <p className="text-xs text-muted-foreground">Prediction for x={p.x}</p>
                         <p className="text-xl font-bold font-comic text-primary">{p.predictedY?.toLocaleString()}</p>
@@ -465,18 +420,18 @@ const DataAnalysis = () => {
               </div>
             )}
 
-            {activeSubFeature === "correlation" && subFeatureResult.coefficient !== undefined && (
+            {subFeatureResult.kind === "correlation" && (
               <div className="space-y-4">
                 <div className="flex items-center gap-6">
                   <div className="text-center">
-                    <p className="text-4xl font-bold font-comic text-primary">{subFeatureResult.coefficient.toFixed(2)}</p>
+                    <p className="text-4xl font-bold font-comic text-primary">{subFeatureResult.coefficient === null ? "Undefined" : subFeatureResult.coefficient.toFixed(4)}</p>
                     <p className="text-xs text-muted-foreground">Pearson's r</p>
                   </div>
                   <div>
-                    <p className={`font-bold text-lg ${subFeatureResult.coefficient > 0.5 ? "text-comic-green" : subFeatureResult.coefficient < -0.5 ? "text-destructive" : "text-accent"}`}>
+                    <p className={`font-bold text-lg ${(subFeatureResult.coefficient ?? 0) > 0.5 ? "text-comic-green" : (subFeatureResult.coefficient ?? 0) < -0.5 ? "text-destructive" : "text-accent"}`}>
                       {subFeatureResult.strength}
                     </p>
-                    <p className="text-sm text-muted-foreground">p = {subFeatureResult.pValue?.toFixed(4)} {subFeatureResult.pValue < 0.05 ? "✓ Significant" : "Not significant"}</p>
+                    <p className="text-sm text-muted-foreground">{subFeatureResult.count} paired observations · row index and value</p>
                   </div>
                 </div>
                 <p className="text-sm text-foreground">{subFeatureResult.interpretation}</p>
@@ -484,7 +439,7 @@ const DataAnalysis = () => {
                   <div className="space-y-1">
                     {subFeatureResult.caveats.map((c: string, i: number) => (
                       <p key={i} className="text-xs text-muted-foreground flex items-center gap-2">
-                        <Info className="w-3 h-3 flex-shrink-0" />{c}
+                        <Info className="w-3 h-3 shrink-0" />{c}
                       </p>
                     ))}
                   </div>
@@ -492,23 +447,28 @@ const DataAnalysis = () => {
               </div>
             )}
 
-            {activeSubFeature === "forecast" && subFeatureResult.predictions && (
+            {subFeatureResult.kind === "compare" && (
+              <div className="space-y-3">
+                <p className="text-sm">Total value minus target: {subFeatureResult.totalDifference.toLocaleString()}</p>
+                {subFeatureResult.comparisons.map((row, i) => (
+                  <p key={i} className="text-sm">{row.category}: {row.difference.toLocaleString()} ({row.percentage === null ? "percentage undefined for a zero target" : `${row.percentage.toFixed(2)}% of absolute target`})</p>
+                ))}
+              </div>
+            )}
+
+            {subFeatureResult.kind === "forecast" && (
               <div className="space-y-4">
                 <div className="flex items-center gap-4">
                   <span className={`px-3 py-1 rounded-full text-xs font-bold border-2 border-foreground ${
                     subFeatureResult.trend === "increasing" ? "bg-comic-green/20 text-comic-green" : subFeatureResult.trend === "decreasing" ? "bg-destructive/20 text-destructive" : "bg-muted"
                   }`}>{subFeatureResult.trend}</span>
                   <span className="text-sm text-muted-foreground">Method: {subFeatureResult.method}</span>
-                  <span className="text-sm font-bold">Confidence: {subFeatureResult.confidence}%</span>
                 </div>
                 <div className="grid grid-cols-3 gap-3">
-                  {subFeatureResult.predictions.map((p: any, i: number) => (
+                  {subFeatureResult.predictions.map((p, i: number) => (
                     <div key={i} className="p-4 bg-card rounded-xl border-2 border-foreground text-center">
                       <p className="text-xs font-bold text-muted-foreground uppercase">{p.period}</p>
                       <p className="text-2xl font-bold font-comic text-primary">{p.value?.toLocaleString()}</p>
-                      {p.lowerBound && p.upperBound && (
-                        <p className="text-xs text-muted-foreground">{p.lowerBound.toLocaleString()} – {p.upperBound.toLocaleString()}</p>
-                      )}
                     </div>
                   ))}
                 </div>

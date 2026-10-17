@@ -64,5 +64,14 @@ jobs:
       - name: Typecheck
         run: npx tsc -b --pretty false
 
+      - name: Verify CSV and deterministic analysis
+        run: node --test scripts/ci/data-analysis.test.mjs
+
       - name: Build
         run: npm run build
+
+      - name: Install Chromium for browser verification
+        run: npx playwright install --with-deps chromium
+
+      - name: Verify routes, CSV workflow and compiled styles
+        run: npm run test:browser

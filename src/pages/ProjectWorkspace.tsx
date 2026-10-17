@@ -290,21 +290,21 @@ function PipelineBuilder({ steps, onStepsChange, onRun, isRunning }: { steps: Pi
       </div>
       <div className="space-y-3">
         {steps.map((s, i) => (
-          <div key={s.id} className="flex items-center gap-3 p-3 brutal-card rounded">
+          <div key={s.id} className="flex items-center gap-3 p-3 brutal-card rounded-[0.25rem]">
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between">
                 <div className="font-bold truncate">{s.name}</div>
                 <div className="text-xs text-muted-foreground">{s.type} • {s.runtimeSeconds}s</div>
               </div>
               <div className="mt-2 grid grid-cols-3 gap-2">
-                <input value={s.name} onChange={(e) => update(s.id, { name: e.target.value })} className="p-2 rounded border-2 bg-background col-span-1" />
-                <select value={s.type} onChange={(e) => update(s.id, { type: e.target.value as any })} className="p-2 rounded border-2 bg-background col-span-1">
+                <input value={s.name} onChange={(e) => update(s.id, { name: e.target.value })} className="p-2 rounded-[0.25rem] border-2 bg-background col-span-1" />
+                <select value={s.type} onChange={(e) => update(s.id, { type: e.target.value as any })} className="p-2 rounded-[0.25rem] border-2 bg-background col-span-1">
                   <option value="sleep">Delay (sleep)</option>
                   <option value="transform">Transform</option>
                   <option value="api">Call API</option>
                   <option value="custom">Custom</option>
                 </select>
-                <input type="number" value={s.runtimeSeconds} onChange={(e) => update(s.id, { runtimeSeconds: Math.max(0, Number(e.target.value) || 0) })} className="p-2 rounded border-2 bg-background col-span-1" />
+                <input type="number" value={s.runtimeSeconds} onChange={(e) => update(s.id, { runtimeSeconds: Math.max(0, Number(e.target.value) || 0) })} className="p-2 rounded-[0.25rem] border-2 bg-background col-span-1" />
               </div>
               <div className="mt-2 text-xs">
                 <div>Status: <strong>{s.status}</strong>{s.status === "running" && s.remainingSeconds !== undefined ? ` — ${s.remainingSeconds}s left` : ""}</div>
@@ -807,7 +807,7 @@ function ProjectWorkspaceImproved() {
 
       {/* Autosave badge */}
       <div className="fixed top-4 right-4 z-50 flex items-center gap-3">
-        <div className="text-xs text-muted-foreground bg-card border-2 border-border px-3 py-2 rounded-lg shadow-sm">
+        <div className="text-xs text-muted-foreground bg-card border-2 border-border px-3 py-2 rounded-lg shadow-xs">
           <div>Autosave</div>
           <div className="text-2xs text-muted-foreground">Local: {lastLocalSave ? new Date(lastLocalSave).toLocaleString() : "Never"}</div>
           <div className="text-2xs text-muted-foreground">Remote: {lastRemoteSync ? new Date(lastRemoteSync).toLocaleString() : user ? "Not yet" : "Logged out"}</div>
@@ -939,7 +939,7 @@ function ProjectWorkspaceImproved() {
                   </div>
 
                   <div className="min-h-[500px] rounded-xl bg-card border-3 border-border p-6">
-                    <textarea value={writingText} onChange={handleTextChange} placeholder="Start writing your research paper here. The AI coach will analyze your text for structure, clarity, evidence, and more..." className="w-full h-full min-h-[450px] bg-transparent resize-none focus:outline-none text-foreground placeholder:text-muted-foreground text-lg leading-relaxed" />
+                    <textarea value={writingText} onChange={handleTextChange} placeholder="Start writing your research paper here. The AI coach will analyze your text for structure, clarity, evidence, and more..." className="w-full h-full min-h-[450px] bg-transparent resize-none focus:outline-hidden text-foreground placeholder:text-muted-foreground text-lg leading-relaxed" />
                   </div>
                   <div className="flex items-center justify-between mt-4 pt-4 border-t-3 border-border">
                     <div className="flex items-center gap-3">
@@ -971,7 +971,7 @@ function ProjectWorkspaceImproved() {
                             className={`p-4 rounded-xl border-2 ${s.priority === "high" ? "border-primary bg-primary/5" : s.priority === "medium" ? "border-accent bg-accent/5" : "border-border bg-card"}`}>
                             <div className="flex items-center gap-2 mb-1">
                               {s.priority === "high" && <Zap className="w-4 h-4 text-primary" />}
-                              {s.category && <span className="text-xs font-bold uppercase text-muted-foreground px-2 py-0.5 bg-secondary rounded">{s.category}</span>}
+                              {s.category && <span className="text-xs font-bold uppercase text-muted-foreground px-2 py-0.5 bg-secondary rounded-[0.25rem]">{s.category}</span>}
                               <span className="font-bold text-foreground">{s.title}</span>
                             </div>
                             <p className="text-sm text-muted-foreground">{s.detail}</p>
@@ -1008,14 +1008,21 @@ function ProjectWorkspaceImproved() {
                     <input type="file" multiple className="hidden" onChange={handleFileInput} />
                     <Button className="brutal-button bg-primary text-primary-foreground" asChild><span><Upload className="w-4 h-4 mr-2" />Upload Sources</span></Button>
                   </label>
-                  <div className="mt-6 grid gap-3">{uploadedFiles.length === 0 && <div className="text-muted-foreground">No uploaded files yet. Upload to populate the review.</div>}{uploadedFiles.map((f, i) => <div key={i} className="flex items-center gap-3 p-3 brutal-card rounded"><div className="w-10 h-10 bg-primary/10 flex items-center justify-center border-2 border-foreground"><File className="w-5 h-5 text-primary" /></div><div className="flex-1 min-w-0"><div className="font-bold truncate">{f.name}</div><div className="text-sm text-muted-foreground">{f.type} • {f.size}</div></div><div><Button variant="outline" onClick={() => { setWritingText((prev) => prev + `\n\n# Source: ${f.name}\nSummary: (add a manual summary)`); setActiveTool("writing"); }}>Add</Button></div></div>)}</div>
+                  <div className="mt-6 grid gap-3">{uploadedFiles.length === 0 && <div className="text-muted-foreground">No uploaded files yet. Upload to populate the review.</div>}{uploadedFiles.map((f, i) => <div key={i} className="flex items-center gap-3 p-3 brutal-card rounded-[0.25rem]"><div className="w-10 h-10 bg-primary/10 flex items-center justify-center border-2 border-foreground"><File className="w-5 h-5 text-primary" /></div><div className="flex-1 min-w-0"><div className="font-bold truncate">{f.name}</div><div className="text-sm text-muted-foreground">{f.type} • {f.size}</div></div><div><Button variant="outline" onClick={() => { setWritingText((prev) => prev + `\n\n# Source: ${f.name}\nSummary: (add a manual summary)`); setActiveTool("writing"); }}>Add</Button></div></div>)}</div>
                 </motion.div>
               )}
 
               {/* Data Analysis - proper component */}
               {activeTool === "data" && (
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-                  <AdvancedStatistics />
+                  <DataAnalysis />
+                  <details className="brutal-card mt-6 p-4">
+                    <summary className="cursor-pointer font-bold">Statistical examples — separate sample data</summary>
+                    <p className="my-4 text-sm text-muted-foreground">
+                      These illustrative statistics use a fixed example dataset. They do not analyze the CSV imported above.
+                    </p>
+                    <AdvancedStatistics />
+                  </details>
                 </motion.div>
               )}
 
@@ -1093,12 +1100,12 @@ function ProjectWorkspaceImproved() {
                   <div className="min-h-[300px] rounded-xl bg-card border-3 border-border p-6 flex items-start">
                     <div className="w-full space-y-3">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <input className="p-3 rounded border-2 bg-background" placeholder="Authors (Lastname, First)" value={citationInput.authors} onChange={(e) => setCitationInput({ ...citationInput, authors: e.target.value })} />
-                        <input className="p-3 rounded border-2 bg-background" placeholder="Year" value={citationInput.year} onChange={(e) => setCitationInput({ ...citationInput, year: e.target.value })} />
-                        <input className="p-3 rounded border-2 bg-background" placeholder="Title" value={citationInput.title} onChange={(e) => setCitationInput({ ...citationInput, title: e.target.value })} />
-                        <input className="p-3 rounded border-2 bg-background" placeholder="Journal / Source" value={citationInput.journal} onChange={(e) => setCitationInput({ ...citationInput, journal: e.target.value })} />
-                        <input className="p-3 rounded border-2 bg-background" placeholder="Volume" value={citationInput.volume} onChange={(e) => setCitationInput({ ...citationInput, volume: e.target.value })} />
-                        <input className="p-3 rounded border-2 bg-background" placeholder="Pages" value={citationInput.pages} onChange={(e) => setCitationInput({ ...citationInput, pages: e.target.value })} />
+                        <input className="p-3 rounded-[0.25rem] border-2 bg-background" placeholder="Authors (Lastname, First)" value={citationInput.authors} onChange={(e) => setCitationInput({ ...citationInput, authors: e.target.value })} />
+                        <input className="p-3 rounded-[0.25rem] border-2 bg-background" placeholder="Year" value={citationInput.year} onChange={(e) => setCitationInput({ ...citationInput, year: e.target.value })} />
+                        <input className="p-3 rounded-[0.25rem] border-2 bg-background" placeholder="Title" value={citationInput.title} onChange={(e) => setCitationInput({ ...citationInput, title: e.target.value })} />
+                        <input className="p-3 rounded-[0.25rem] border-2 bg-background" placeholder="Journal / Source" value={citationInput.journal} onChange={(e) => setCitationInput({ ...citationInput, journal: e.target.value })} />
+                        <input className="p-3 rounded-[0.25rem] border-2 bg-background" placeholder="Volume" value={citationInput.volume} onChange={(e) => setCitationInput({ ...citationInput, volume: e.target.value })} />
+                        <input className="p-3 rounded-[0.25rem] border-2 bg-background" placeholder="Pages" value={citationInput.pages} onChange={(e) => setCitationInput({ ...citationInput, pages: e.target.value })} />
                       </div>
 
                       <div className="flex gap-3">
@@ -1109,12 +1116,12 @@ function ProjectWorkspaceImproved() {
                       <div className="mt-4 border-t pt-4">
                         <div className="text-sm text-muted-foreground mb-2">Or paste a DOI / link and fetch metadata:</div>
                         <div className="flex gap-2">
-                          <input className="flex-1 p-2 rounded border-2 bg-background" placeholder="https://doi.org/10.... or arXiv/URL" value={citationInput.url} onChange={(e) => setCitationInput({ ...citationInput, url: e.target.value })} />
+                          <input className="flex-1 p-2 rounded-[0.25rem] border-2 bg-background" placeholder="https://doi.org/10.... or arXiv/URL" value={citationInput.url} onChange={(e) => setCitationInput({ ...citationInput, url: e.target.value })} />
                           <Button onClick={fetchCitationFromLink}>Fetch</Button>
                         </div>
                       </div>
 
-                      {generatedCitations.apa && <div className="mt-3 space-y-2"><div className="text-xs text-muted-foreground">APA</div><div className="p-3 bg-background rounded">{generatedCitations.apa}</div><div className="text-xs text-muted-foreground">MLA</div><div className="p-3 bg-background rounded">{generatedCitations.mla}</div><div className="text-xs text-muted-foreground">Chicago</div><div className="p-3 bg-background rounded">{generatedCitations.chicago}</div></div>}
+                      {generatedCitations.apa && <div className="mt-3 space-y-2"><div className="text-xs text-muted-foreground">APA</div><div className="p-3 bg-background rounded-[0.25rem]">{generatedCitations.apa}</div><div className="text-xs text-muted-foreground">MLA</div><div className="p-3 bg-background rounded-[0.25rem]">{generatedCitations.mla}</div><div className="text-xs text-muted-foreground">Chicago</div><div className="p-3 bg-background rounded-[0.25rem]">{generatedCitations.chicago}</div></div>}
                     </div>
                   </div>
                 </motion.div>
@@ -1125,7 +1132,7 @@ function ProjectWorkspaceImproved() {
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
                   <div className="relative">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                    <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search for research papers, articles, journals..." className="w-full h-14 pl-12 pr-4 rounded-xl bg-card border-3 border-foreground focus:border-primary focus:shadow-brutal-primary outline-none transition-all text-lg" onKeyDown={(e) => { if (e.key === "Enter") runSearch(searchQuery); }} />
+                    <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search for research papers, articles, journals..." className="w-full h-14 pl-12 pr-4 rounded-xl bg-card border-3 border-foreground focus:border-primary focus:shadow-brutal-primary outline-hidden transition-all text-lg" onKeyDown={(e) => { if (e.key === "Enter") runSearch(searchQuery); }} />
                   </div>
 
                   <div className="brutal-card rounded-2xl p-8 text-center">
@@ -1138,7 +1145,7 @@ function ProjectWorkspaceImproved() {
 
                   <div className="mt-4 space-y-3">
                     {searchResults.map((r: any, i: number) => (
-                      <div key={i} className="p-3 brutal-card rounded flex items-start gap-4">
+                      <div key={i} className="p-3 brutal-card rounded-[0.25rem] flex items-start gap-4">
                         <div className="flex-1"><div className="font-bold">{r.title}</div><div className="text-sm text-muted-foreground">{r.authors} • {r.year} • {r.source}</div></div>
                         <div className="flex flex-col gap-2">
                           <Button onClick={() => { setWritingText((prev) => prev + `\n\n# Imported: ${r.title}\nAuthors: ${r.authors}\nSource: ${r.source}\n`); setActiveTool("writing"); }}>Import</Button>
@@ -1188,10 +1195,10 @@ function ChiSquareUI({ onCompute }: { onCompute: (table: number[][]) => void }) 
   return (
     <div className="space-y-3">
       <div className="grid grid-cols-2 gap-2">
-        <input value={r1c1} onChange={(e) => setR1c1(e.target.value)} className="p-2 rounded border-2 bg-background" />
-        <input value={r1c2} onChange={(e) => setR1c2(e.target.value)} className="p-2 rounded border-2 bg-background" />
-        <input value={r2c1} onChange={(e) => setR2c1(e.target.value)} className="p-2 rounded border-2 bg-background" />
-        <input value={r2c2} onChange={(e) => setR2c2(e.target.value)} className="p-2 rounded border-2 bg-background" />
+        <input value={r1c1} onChange={(e) => setR1c1(e.target.value)} className="p-2 rounded-[0.25rem] border-2 bg-background" />
+        <input value={r1c2} onChange={(e) => setR1c2(e.target.value)} className="p-2 rounded-[0.25rem] border-2 bg-background" />
+        <input value={r2c1} onChange={(e) => setR2c1(e.target.value)} className="p-2 rounded-[0.25rem] border-2 bg-background" />
+        <input value={r2c2} onChange={(e) => setR2c2(e.target.value)} className="p-2 rounded-[0.25rem] border-2 bg-background" />
       </div>
       <div className="flex gap-2">
         <Button onClick={() => onCompute([[parseFloat(r1c1) || 0, parseFloat(r1c2) || 0], [parseFloat(r2c1) || 0, parseFloat(r2c2) || 0]])}>Compute Chi-square</Button>

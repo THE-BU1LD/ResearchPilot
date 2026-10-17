@@ -95,7 +95,7 @@ export const FeatureBadge = memo(function FeatureBadge({
   return (
     <motion.div
       layout
-      className={`inline-flex items-center gap-2 px-3 py-1.5 border-2 rounded cursor-pointer transition-colors hover:shadow-brutal-sm ${variantStyles[variant]} ${className}`}
+      className={`inline-flex items-center gap-2 px-3 py-1.5 border-2 rounded-[0.25rem] cursor-pointer transition-colors hover:shadow-brutal-sm ${variantStyles[variant]} ${className}`}
       onClick={() => setIsExpanded(!isExpanded)}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
@@ -233,7 +233,7 @@ export const QuickHelp = memo(function QuickHelp({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 bg-foreground/20 backdrop-blur-sm z-50"
+              className="fixed inset-0 bg-foreground/20 backdrop-blur-xs z-50"
             />
             <motion.div
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -245,7 +245,7 @@ export const QuickHelp = memo(function QuickHelp({
                 <h3 className="font-comic text-xl text-foreground">Quick Help</h3>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="p-1 hover:bg-muted rounded"
+                  className="p-1 hover:bg-muted rounded-[0.25rem]"
                 >
                   <X className="w-5 h-5" />
                 </button>

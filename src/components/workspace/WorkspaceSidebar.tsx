@@ -46,7 +46,7 @@ const tools = [
   { id: "writing", label: "Writing Studio", icon: PenTool, description: "Draft & refine", color: "hsl(0 85% 55%)", tip: "AI helps you write better, not write for you", shortcut: "1" },
   { id: "ideas", label: "Idea Generation", icon: Lightbulb, description: "Brainstorm", color: "hsl(45 95% 50%)", tip: "Start with 'What if...' questions", shortcut: "2" },
   { id: "literature", label: "Literature Review", icon: BookMarked, description: "Sources", color: "hsl(270 70% 55%)", tip: "Save papers relevant to your hypothesis", shortcut: "3" },
-  { id: "data", label: "Advanced Statistics", icon: BarChart3, description: "Analyze Data", color: "hsl(0 85% 55%)", tip: "Upload CSV for automatic analysis", shortcut: "4" },
+  { id: "data", label: "Data Analysis", icon: BarChart3, description: "Analyze Data", color: "hsl(0 85% 55%)", tip: "Upload CSV for automatic analysis", shortcut: "4" },
   { id: "grader", label: "Research Grader", icon: Microscope, description: "Evaluate Quality", color: "hsl(145 70% 45%)", tip: "Get feedback before submission", shortcut: "5" },
   { id: "toolkit", label: "Research Toolkit", icon: Beaker, description: "Methods & Tests", color: "hsl(185 80% 45%)", tip: "Choose the right methodology", shortcut: "6" },
   { id: "subjects", label: "Subject Tools", icon: BookOpen, description: "Field-Specific", color: "hsl(210 100% 55%)", tip: "Tools tailored to your field", shortcut: "7" },
@@ -102,7 +102,7 @@ const ToolButton = memo(function ToolButton({
         </p>
       </div>
       <div className="flex items-center gap-1">
-        <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded border ${
+        <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded-[0.25rem] border ${
           isActive ? "border-primary-foreground/30 text-primary-foreground/60" : "border-foreground/20 text-muted-foreground"
         }`}>
           {tool.shortcut}
@@ -162,7 +162,7 @@ const WorkspaceSidebar = memo(function WorkspaceSidebar({
 
   return (
     <aside
-      className={`flex-shrink-0 transition-all duration-300 bg-card border-r-3 border-foreground ${
+      className={`shrink-0 transition-all duration-300 bg-card border-r-3 border-foreground ${
         sidebarOpen ? "w-72" : "w-0 overflow-hidden"
       }`}
     >
@@ -204,8 +204,8 @@ const WorkspaceSidebar = memo(function WorkspaceSidebar({
             >
               <div className="p-3 bg-muted/50 border-2 border-foreground/20 rounded-lg text-xs text-muted-foreground">
                 <p className="font-bold text-foreground mb-2">Quick Keys:</p>
-                <p>Press <kbd className="px-1 py-0.5 bg-background border rounded font-mono">1-0</kbd> to switch tools</p>
-                <p className="mt-1">Use <kbd className="px-1 py-0.5 bg-background border rounded font-mono">-</kbd> and <kbd className="px-1 py-0.5 bg-background border rounded font-mono">=</kbd> for Citations & Search</p>
+                <p>Press <kbd className="px-1 py-0.5 bg-background border rounded-[0.25rem] font-mono">1-0</kbd> to switch tools</p>
+                <p className="mt-1">Use <kbd className="px-1 py-0.5 bg-background border rounded-[0.25rem] font-mono">-</kbd> and <kbd className="px-1 py-0.5 bg-background border rounded-[0.25rem] font-mono">=</kbd> for Citations & Search</p>
               </div>
             </motion.div>
           )}
@@ -228,7 +228,7 @@ const WorkspaceSidebar = memo(function WorkspaceSidebar({
                   <X className="w-3 h-3" />
                 </button>
                 <div className="flex items-start gap-2">
-                  <Sparkles className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
+                  <Sparkles className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                   <p className="text-xs text-foreground font-medium pr-4">{activeTip}</p>
                 </div>
               </div>
@@ -297,7 +297,7 @@ const WorkspaceSidebar = memo(function WorkspaceSidebar({
                   animate={{ opacity: 1, x: 0 }}
                   className="flex items-center gap-2 px-3 py-2 text-sm text-muted-foreground hover:bg-secondary rounded-lg group transition-colors"
                 >
-                  <div className="w-7 h-7 rounded-md bg-secondary border-2 border-border flex items-center justify-center flex-shrink-0">
+                  <div className="w-7 h-7 rounded-md bg-secondary border-2 border-border flex items-center justify-center shrink-0">
                     <File className="w-4 h-4 text-primary" />
                   </div>
                   <span className="truncate flex-1 font-medium">{file.name}</span>

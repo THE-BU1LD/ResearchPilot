@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabase";
 import {
   BarChart3,
   PieChart,
@@ -153,8 +153,8 @@ const StatisticalTest = ({ name, description, result, pValue, significant }: {
         <h4 className="font-bold text-foreground">{name}</h4>
         <p className="text-xs text-muted-foreground">{description}</p>
         <div className="mt-2 flex items-center gap-3">
-          <span className="text-sm font-mono bg-secondary px-2 py-1 rounded">{result}</span>
-          <span className={`text-xs font-bold px-2 py-1 rounded ${
+          <span className="text-sm font-mono bg-secondary px-2 py-1 rounded-[0.25rem]">{result}</span>
+          <span className={`text-xs font-bold px-2 py-1 rounded-[0.25rem] ${
             significant ? "bg-comic-green/20 text-comic-green" : "bg-muted text-muted-foreground"
           }`}>
             p = {pValue.toFixed(4)} {significant ? "✓ Significant" : "Not significant"}

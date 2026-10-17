@@ -88,7 +88,7 @@ export function SmartPrompt({
         style={{ boxShadow: isFocused ? "var(--shadow-brutal)" : "var(--shadow-brutal-sm)" }}
       >
         <div className="flex items-start gap-3 p-4">
-          <div className="w-8 h-8 bg-primary/10 border-2 border-primary/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+          <div className="w-8 h-8 bg-primary/10 border-2 border-primary/30 flex items-center justify-center shrink-0 mt-0.5">
             <Wand2 className="w-4 h-4 text-primary" />
           </div>
           <textarea
@@ -100,13 +100,13 @@ export function SmartPrompt({
             onKeyDown={handleKeyDown}
             placeholder={placeholder}
             rows={1}
-            className="flex-1 bg-transparent resize-none focus:outline-none text-foreground placeholder:text-muted-foreground font-medium min-h-[24px]"
+            className="flex-1 bg-transparent resize-none focus:outline-hidden text-foreground placeholder:text-muted-foreground font-medium min-h-[24px]"
           />
           <Button
             onClick={handleSubmit}
             disabled={!value.trim() || isLoading}
             size="sm"
-            className="brutal-button bg-primary text-primary-foreground flex-shrink-0"
+            className="brutal-button bg-primary text-primary-foreground shrink-0"
           >
             {isLoading ? (
               <Loader2 className="w-4 h-4 animate-spin" />
@@ -198,7 +198,7 @@ export function AIAssistantBubble({
           exit={{ opacity: 0, y: 10, scale: 0.95 }}
           className="flex items-start gap-3 p-4 bg-primary/10 border-2 border-primary/30"
         >
-          <div className="w-8 h-8 bg-primary border-2 border-foreground flex items-center justify-center flex-shrink-0">
+          <div className="w-8 h-8 bg-primary border-2 border-foreground flex items-center justify-center shrink-0">
             <Sparkles className="w-4 h-4 text-primary-foreground" />
           </div>
           <div className="flex-1">
@@ -245,7 +245,7 @@ export function ContextualHelp({ title, description, examples, className = "" }:
         onClick={() => setIsExpanded(!isExpanded)}
         className="flex items-center gap-2 text-left w-full"
       >
-        <MessageSquare className="w-4 h-4 text-primary flex-shrink-0" />
+        <MessageSquare className="w-4 h-4 text-primary shrink-0" />
         <span className="font-bold text-sm">{title}</span>
         {isExpanded ? (
           <ChevronUp className="w-4 h-4 text-muted-foreground ml-auto" />

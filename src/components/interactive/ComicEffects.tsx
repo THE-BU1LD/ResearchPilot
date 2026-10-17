@@ -166,9 +166,9 @@ export const ComicSpeechBubble = memo(function ComicSpeechBubble({
   };
 
   const tailStyles = {
-    bottom: "after:bottom-[-16px] after:left-1/2 after:-translate-x-1/2 after:border-t-[18px] after:border-l-[14px] after:border-r-[14px] after:border-l-transparent after:border-r-transparent",
-    left: "after:left-[-16px] after:top-1/2 after:-translate-y-1/2 after:border-r-[18px] after:border-t-[14px] after:border-b-[14px] after:border-t-transparent after:border-b-transparent",
-    right: "after:right-[-16px] after:top-1/2 after:-translate-y-1/2 after:border-l-[18px] after:border-t-[14px] after:border-b-[14px] after:border-t-transparent after:border-b-transparent",
+    bottom: "after:bottom-[-16px] after:left-1/2 after:-translate-x-1/2 after:border-t-18 after:border-l-14 after:border-r-14 after:border-l-transparent after:border-r-transparent",
+    left: "after:left-[-16px] after:top-1/2 after:-translate-y-1/2 after:border-r-18 after:border-t-14 after:border-b-14 after:border-t-transparent after:border-b-transparent",
+    right: "after:right-[-16px] after:top-1/2 after:-translate-y-1/2 after:border-l-18 after:border-t-14 after:border-b-14 after:border-t-transparent after:border-b-transparent",
   };
 
   return (
@@ -260,7 +260,7 @@ export const ComicPanelBorder = memo(function ComicPanelBorder({
 }: ComicPanelBorderProps) {
   const variantStyles = {
     standard: "border-3 border-foreground shadow-brutal",
-    action: "border-[4px] border-foreground shadow-brutal-lg",
+    action: "border-4 border-foreground shadow-brutal-lg",
     dramatic: "border-[5px] border-primary shadow-brutal-primary",
   };
 

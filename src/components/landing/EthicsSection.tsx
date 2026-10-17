@@ -149,7 +149,7 @@ const EthicsSection = () => {
       <div className="container mx-auto px-6 relative z-10">
         {/* Header */}
         <div ref={headerRef} className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent border-3 border-foreground shadow-brutal-sm mb-6 rotate-[-1deg] hover:rotate-0 transition-transform cursor-pointer">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent border-3 border-foreground shadow-brutal-sm mb-6 -rotate-1 hover:rotate-0 transition-transform cursor-pointer">
             <Shield className="w-5 h-5 text-accent-foreground" />
             <span className="font-bold uppercase text-accent-foreground text-sm">
               Our Promise
@@ -215,7 +215,7 @@ const EthicsSection = () => {
                 key={index}
                 className="flex items-center gap-3 p-3 bg-background border-2 border-foreground/20 rounded-lg hover:border-primary hover:bg-primary/5 transition-all group cursor-default"
               >
-                <div className="w-6 h-6 bg-accent border-2 border-foreground flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                <div className="w-6 h-6 bg-accent border-2 border-foreground flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
                   <Check className="w-4 h-4 text-accent-foreground" />
                 </div>
                 <span className="font-medium text-foreground">{commitment}</span>

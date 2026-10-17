@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
 import {
   Award, CheckCircle2, AlertTriangle, XCircle, Sparkles, RefreshCw,
@@ -100,7 +100,7 @@ const CategoryCard = ({ category, expanded, onToggle }: { category: GradeCategor
                 <ul className="space-y-1">
                   {category.feedback.map((item, i) => (
                     <motion.li key={i} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.1 }} className="flex items-start gap-2 text-sm">
-                      <CheckCircle2 className="w-4 h-4 text-comic-green flex-shrink-0 mt-0.5" /><span>{item}</span>
+                      <CheckCircle2 className="w-4 h-4 text-comic-green shrink-0 mt-0.5" /><span>{item}</span>
                     </motion.li>
                   ))}
                 </ul>
@@ -110,7 +110,7 @@ const CategoryCard = ({ category, expanded, onToggle }: { category: GradeCategor
                 <ul className="space-y-1">
                   {category.suggestions.map((item, i) => (
                     <motion.li key={i} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.1 + 0.3 }} className="flex items-start gap-2 text-sm">
-                      <AlertTriangle className="w-4 h-4 text-accent flex-shrink-0 mt-0.5" /><span>{item}</span>
+                      <AlertTriangle className="w-4 h-4 text-accent shrink-0 mt-0.5" /><span>{item}</span>
                     </motion.li>
                   ))}
                 </ul>
@@ -232,7 +232,7 @@ const ResearchGrader = () => {
 
       {/* Header */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-        className="brutal-card rounded-2xl p-6 bg-gradient-to-br from-primary/10 to-accent/10 relative overflow-hidden">
+        className="brutal-card rounded-2xl p-6 bg-linear-to-br from-primary/10 to-accent/10 relative overflow-hidden">
         <InteractiveComicDots dotColor="hsl(var(--primary) / 0.08)" dotSpacing={18} minDotSize={1} maxDotSize={5} hoverRadius={70} />
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
@@ -263,7 +263,7 @@ const ResearchGrader = () => {
         </div>
         <textarea value={researchText} onChange={(e) => setResearchText(e.target.value)}
           placeholder="Paste your research paper, thesis, or essay here for comprehensive AI evaluation..."
-          className="w-full h-40 p-4 bg-secondary border-3 border-border rounded-xl resize-none focus:outline-none focus:border-primary text-foreground placeholder:text-muted-foreground" />
+          className="w-full h-40 p-4 bg-secondary border-3 border-border rounded-xl resize-none focus:outline-hidden focus:border-primary text-foreground placeholder:text-muted-foreground" />
         <div className="mt-2 flex items-center justify-between text-sm text-muted-foreground">
           <span>{researchText.split(/\s+/).filter(Boolean).length} words</span>
           <span>Supports: Essays, Research Papers, Theses, Lab Reports</span>
@@ -299,12 +299,12 @@ const ResearchGrader = () => {
                     <p className="text-sm text-foreground">{overallComment}</p>
                     <div className="flex gap-4 mt-3">
                       {strongestArea && (
-                        <span className="text-xs px-2 py-1 bg-comic-green/20 text-comic-green font-bold rounded">
+                        <span className="text-xs px-2 py-1 bg-comic-green/20 text-comic-green font-bold rounded-[0.25rem]">
                           Strongest: {nameMap[strongestArea] || strongestArea}
                         </span>
                       )}
                       {priorityImprovement && (
-                        <span className="text-xs px-2 py-1 bg-accent/20 text-accent font-bold rounded flex items-center gap-1">
+                        <span className="text-xs px-2 py-1 bg-accent/20 text-accent font-bold rounded-[0.25rem] flex items-center gap-1">
                           <ArrowRight className="w-3 h-3" />Focus: {nameMap[priorityImprovement] || priorityImprovement}
                         </span>
                       )}

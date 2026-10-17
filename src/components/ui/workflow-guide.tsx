@@ -173,7 +173,7 @@ export function WorkflowGuide({
                     e.stopPropagation();
                     markComplete(step.id);
                   }}
-                  className="flex-shrink-0"
+                  className="shrink-0"
                 >
                   {isCompleted ? (
                     <CheckCircle2 className="w-6 h-6 text-primary" />
