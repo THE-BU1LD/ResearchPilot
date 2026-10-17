@@ -1,0 +1,43 @@
+name: Research Muse product issue
+description: Report product, UX, auth, persistence, deployment, accessibility, security, or product-specific user-research work for Research Muse.
+title: "[Research Muse] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This repository is canonical for the Research Muse product only. Cross-project Bu1LD research routing, repository identity/provenance, organization-wide CI governance, and unrelated research-program authority belong in THE-BU1LD/org-infra- or the relevant canonical research repository.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Product area
+      options:
+        - Product / UX
+        - Authentication / authorization
+        - Persistence / data
+        - Deployment / runtime
+        - Security / privacy
+        - Accessibility
+        - Product-specific user research
+        - Documentation / developer experience
+        - Other Research Muse product work
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: Describe the concrete Research Muse problem or change needed.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence / reproduction
+      description: Include source revision, reproduction steps, logs, screenshots, or other non-secret evidence when applicable.
+  - type: checkboxes
+    id: boundary
+    attributes:
+      label: Repository boundary
+      options:
+        - label: I confirm this issue is specific to Research Muse and is not portfolio-wide research routing, unrelated research-program authority, or organization-wide repository governance.
+          required: true
